@@ -209,6 +209,7 @@ C03.1 - Internet (Wifi e ou 3G/4G) "regras: "DESMARCAR:C03.0;"
 C03.2 - TV por Assinatura "regras: "DESMARCAR:C03.0;"
 C03.3 - Assinatura de jornais "regras: "DESMARCAR:C03.0;"
 C03.4 - Assinatura de revistas "regras: "DESMARCAR:C03.0;"
+
 C04 - Equipamentos "tipo: "multipla-selecao
 C04.01 - Quantas Placas de energia/aquecedor solar? "tipo: "numerico - Quantidade "regras: "DESMARCAR:C04.00;"
 C04.02 - Quantos Ar condicionados? "tipo: "numerico - Quantidade "regras: "DESMARCAR:C04.00;"
@@ -576,9 +577,10 @@ C09.06 - Previdência
 C09.07 - Canais de atendimento
 C09.08 - Recebimento de salário
 C09.09 - Outros
-C09.88 - Não sabe/não quis responder" }
+C09.88 - Não sabe/não quis responder
+C09.99 - Não se aplica
 
-C10 - Cite os quatro primeiros bancos que recordar    
+C10.1 - Cite o primeiro banco que recordar
 C10.1 - Bradesco
 C10.2 - Banco Regional de Brasília - BRB
 C10.3 - Banco do Brasil - BB
@@ -587,7 +589,7 @@ C10.5 - Itaú
 C10.6 - Safra
 C10.7 - Santander
 C10.8 - Outros
-C10.9 - Não sabe/não quis responder "regras: "PULAR:D01;"
+C10.9 - Não sabe/não quis responder "regras: "PULAR:D01
 
 C10.2 - Cite o segundo banco que recordar
 C10.1 - Bradesco
@@ -598,7 +600,8 @@ C10.5 - Itaú
 C10.6 - Safra
 C10.7 - Santander
 C10.8 - Outros
-C10.9 - Não sabe/não quis responder "regras: "PULAR:D01;"
+C10.9 - Não sabe/não quis responder "regras: "PULAR:D01
+C10.99 - Não se aplica
 
 C10.3 - Cite o terceiro banco que recordar
 C10.1 - Bradesco
@@ -610,6 +613,7 @@ C10.6 - Safra
 C10.7 - Santander
 C10.8 - Outros
 C10.9 - Não sabe/não quis responder "regras: "PULAR:D01;"
+C10.99 - Não se aplica
 
 C10.4 - Cite o quarto banco que recordar
 C10.1 - Bradesco
@@ -621,6 +625,7 @@ C10.6 - Safra
 C10.7 - Santander
 C10.8 - Outros
 C10.9 - Não sabe/não quis responder "regras: "PULAR:D01;" 
+C10.99 - Não se aplica
 
 
 
@@ -641,7 +646,6 @@ C10.9 - Não sabe/não quis responder "regras: "PULAR:D01;"
 
 
 Bloco D - Características Gerais e de Migração dos Moradores
-
 
 D01.nome - Nome
 
@@ -737,6 +741,7 @@ D10.26 - Sergipe "regras: "PULAR:D12;
 D10.27 - Tocantins "regras: "PULAR:D12;
 D10.28 - Exterior "regras: "PULAR:D12;
 D10.88 - Não sabe/Não quis informar "regras: "PULAR:D12;
+D10.99 - Não se aplica
 
 D11 - Para os nascidos no DF, onde a família morava na época do nascimento?
 D11.1 - No DF
@@ -744,11 +749,12 @@ D11.2 - No município
 D11.3 - Outro município da PMB
 D11.4 - Em outro local
 D11.8 - Não sabe/Não quis responder
-D11.9 - Nascidos fora do DF" }
+D11.9 - Nascidos fora do DF
+D11.9 - Não se aplica
 
 D12 - Em que ano chegou ao município?
 D12.1 - Informar ano de chegada campo: { tipo: "numerico - Ano" } },
-D12.88 - Não sabe" }
+D12.88 - Não sabe
 
 D13 – De onde veio para o município? (Unidades da Federação)
 D13.01 - Distrito Federal
@@ -865,482 +871,406 @@ D18.54 - Anápolis
 D18.55 - Goiânia
 D18.56 - Outros locais
 D18.88 - Não sabe/não quis responder
-    ]
-},
-{
-    "id": "D19
+
 D19 - Utiliza posto de saúde?
-D19.00 - D19.00 - Não utiliza
-D19.01 - D19.01 - Plano Piloto
-D19.02 - D19.02 - Gama
-D19.03 - D19.03 - Taguatinga
-D19.04 - D19.04 - Brazlândia
-D19.05 - D19.05 - Sobradinho
-D19.06 - D19.06 - Planaltina
-D19.07 - D19.07 - Paranoá
-D19.08 - D19.08 - Núcleo Bandeirante
-D19.09 - D19.09 - Ceilândia
-D19.10 - D19.10 - Guará
-D19.11 - D19.11 - Cruzeiro
-D19.12 - D19.12 - Samambaia
-D19.13 - D19.13 - Santa Maria
-D19.14 - D19.14 - São Sebastião
-D19.15 - D19.15 - Recanto das Emas
-D19.16 - D19.16 - Lago Sul
-D19.17 - D19.17 - Riacho Fundo
-D19.18 - D19.18 - Lago Norte
-D19.19 - D19.19 - Candangolândia
-D19.20 - D19.20 - Águas Claras
-D19.21 - D19.21 - Riacho Fundo II
-D19.22 - D19.22 - Sudoeste/Octogonal
-D19.23 - D19.23 - Varjão
-D19.24 - D19.24 - Park Way
-D19.25 - D19.25 - SCIA-Estrutural
-D19.26 - D19.26 - Sobradinho II
-D19.27 - D19.27 - Jardim Botânico
-D19.28 - D19.28 - Itapoã
-D19.29 - D19.29 - SIA
-D19.30 - D19.30 - Vicente Pires
-D19.31 - D19.31 - Fercal
-D19.32 - D19.32 - Vários locais do DF
-D19.41 - D19.41 - Aguas Lindas de Goiás
-D19.42 - D19.42 - Alexânia
-D19.43 - D19.43 - Cidade Ocidental (Sede e ABC)
-D19.44 - D19.44 - Cristalina (Sede, Campos Lindos/ Marajó)
-D19.45 - D19.45 - Cocalzinho de Goiás (Sede, Girassol/Edilândia)
-D19.46 - D19.46 - Formosa
-D19.47 - D19.47 - Luziânia (Sede e Distritos)
-D19.48 - D19.48 - Novo Gama
-D19.49 - D19.49 - Padre Bernardo (Sede, Monte Alto)
-D19.50 - D19.50 - Planaltina
-D19.51 - D19.51 - Santo Antônio do Descoberto
-D19.52 - D19.52 - Valparaíso de Goiás
-D19.53 - D19.53 - Outros municípios da RIDE
-D19.54 - D19.54 - Anápolis
-D19.55 - D19.55 - Goiânia
-D19.56 - D19.56 - Outros locais
-D19.88 - D19.88 - Não sabe/não quis responder" }
-    ]
-},
-{
-    "id": "D20
-D20 - Qual o tipo violência mais recente que sofreu nos últimos 12 meses
-    regras_exibicao: "VALOR:D05 >= 16;
-D20.0 - D20.0 - Não sofreu "regras: "PULAR:E01;
-D20.1 - D20.1 - Roubo de carros
-D20.2 - D20.2 - Furto de carros
-D20.3 - D20.3 - Furto de dentro do carro
-D20.4 - D20.4 - Dano/vandalismo de carros
-D20.5 - D20.5 - Roubo de motocicletas/lambretas
-D20.6 - D20.6 - Furto de motocicletas/lambretas
-D20.7 - D20.7 - Roubo de bicicletas
-D20.8 - D20.8 - Furto de bicicleta
-D20.9 - D20.9 - Arrombamento
-D20.10 - D20.10 - Tentativa de arrombamento
-D20.11 - D20.11 - Roubo de outros bens
-D20.12 - D20.12 - Furto pessoais
-D20.13 - D20.13 - Ofensa sexual
-D20.14 - D20.14 - Agressão física/ameaças
-D20.88 - D20.88 - Não sabe/não lembra
-    ]
-},
-{
-    "id": "D21
-D21 - Local da violência?
-    regras_exibicao: "VALOR:D05 >= 16;
-D21.1 - D21.1 - Na sua casa
-D21.2 - D21.2 - Na casa de algum parente ou amigo
-D21.3 - D21.3 - Andando na rua
-D21.4 - D21.4 - No local de trabalho
-D21.5 - D21.5 - Meios de transporte (ônibus, metrô, trem, táxi, lotação, carro, etc.)
-D21.6 - D21.6 - Locais públicos internos (banco, escola, shopping, restaurantes, bar, loja, etc)
-D21.7 - D21.7 - Locais públicos externos (praça, parque, jardim, etc)
-D21.8 - D21.8 - Não Sabe/não lembra
-    ]
-},
-{
-    "id": "D22
-D22 - Registrou queixa do ocorrido?
-    regras_exibicao: "VALOR:D05 >= 16;
-D22.1 - D22.1 - Não denunciou
-D22.2 - D22.2 - Sim na Polícia Militar
-D22.3 - D22.3 - Sim na Polícia Civil
-D22.4 - D22.4 - Sim na Polícia Rodoviária Federal
-D22.5 - D22.5 - Sim outra
-D22.8 - D22.8 - Não Sabe/não lembra
-    ]
-}
-    ]
-},
-{
-BlocoE
+D19.00 - Não utiliza
+D19.01 - Plano Piloto
+D19.02 - Gama
+D19.03 - Taguatinga
+D19.04 - Brazlândia
+D19.05 - Sobradinho
+D19.06 - Planaltina
+D19.07 - Paranoá
+D19.08 - Núcleo Bandeirante
+D19.09 - Ceilândia
+D19.10 - Guará
+D19.11 - Cruzeiro
+D19.12 - Samambaia
+D19.13 - Santa Maria
+D19.14 - São Sebastião
+D19.15 - Recanto das Emas
+D19.16 - Lago Sul
+D19.17 - Riacho Fundo
+D19.18 - Lago Norte
+D19.19 - Candangolândia
+D19.20 - Águas Claras
+D19.21 - Riacho Fundo II
+D19.22 - Sudoeste/Octogonal
+D19.23 - Varjão
+D19.24 - Park Way
+D19.25 - SCIA-Estrutural
+D19.26 - Sobradinho II
+D19.27 - Jardim Botânico
+D19.28 - Itapoã
+D19.29 - SIA
+D19.30 - Vicente Pires
+D19.31 - Fercal
+D19.32 - Vários locais do DF
+D19.41 - Aguas Lindas de Goiás
+D19.42 - Alexânia
+D19.43 - Cidade Ocidental (Sede e ABC)
+D19.44 - Cristalina (Sede, Campos Lindos/ Marajó)
+D19.45 - Cocalzinho de Goiás (Sede, Girassol/Edilândia)
+D19.46 - Formosa
+D19.47 - Luziânia (Sede e Distritos)
+D19.48 - Novo Gama
+D19.49 - Padre Bernardo (Sede, Monte Alto)
+D19.50 - Planaltina
+D19.51 - Santo Antônio do Descoberto
+D19.52 - Valparaíso de Goiás
+D19.53 - Outros municípios da RIDE
+D19.54 - Anápolis
+D19.55 - Goiânia
+D19.56 - Outros locais
+D19.88 - Não sabe/não quis responder
+
+D20 - Qual o tipo violência mais recente que sofreu nos últimos 12 meses "regras_exibicao: "VALOR:D05 >= 16;
+D20.0 - Não sofreu "regras: "PULAR:E01;
+D20.1 - Roubo de carros
+D20.2 - Furto de carros
+D20.3 - Furto de dentro do carro
+D20.4 - Dano/vandalismo de carros
+D20.5 - Roubo de motocicletas/lambretas
+D20.6 - Furto de motocicletas/lambretas
+D20.7 - Roubo de bicicletas
+D20.8 - Furto de bicicleta
+D20.9 - Arrombamento
+D20.10 - Tentativa de arrombamento
+D20.11 - Roubo de outros bens
+D20.12 - Furto pessoais
+D20.13 - Ofensa sexual
+D20.14 - Agressão física/ameaças
+D20.88 - Não sabe/não lembra
+D20.99 - Não se aplica
+
+D21 - Local da violência? "regras_exibicao: "VALOR:D05 >= 16;
+D21.1 - Na sua casa
+D21.2 - Na casa de algum parente ou amigo
+D21.3 - Andando na rua
+D21.4 - No local de trabalho
+D21.5 - Meios de transporte (ônibus, metrô, trem, táxi, lotação, carro, etc.)
+D21.6 - Locais públicos internos (banco, escola, shopping, restaurantes, bar, loja, etc)
+D21.7 - Locais públicos externos (praça, parque, jardim, etc)
+D21.8 - Não Sabe/não lembra
+D21.9 - Não se aplica
+
+D22 - Registrou queixa do ocorrido? "regras_exibicao: "VALOR:D05 >= 16;
+D22.1 - Não denunciou
+D22.2 - Sim na Polícia Militar
+D22.3 - Sim na Polícia Civil
+D22.4 - Sim na Polícia Rodoviária Federal
+D22.5 - Sim outra
+D22.8 - Não Sabe/não lembra
+D22.9 - Não se aplica
+
+
 Bloco E - CARACTERÍSTICAS DE EDUCAÇÃO/ TRABALHO E RENDIMENTOS DOS MORADORES
-    items: [
-{
-    "id": "E01
+
 E01 - Frequenta escola ou creche regular?
-E01.0 - E01.0 - Não "regras: "PULAR:E03;
-E01.1 - E01.1 - Escola pública
-E01.2 - E01.2 - Escola particular
-E01.3 - E01.3 - A distância pública "regras: "PULAR:E02;
-E01.4 - E01.4 - A distância particular "regras: "PULAR:E02;" }
-    ]
-},
-{
-    "id": "E02
+E01.0 - Não "regras: "PULAR:E03;
+E01.1 - Escola pública
+E01.2 - Escola particular
+E01.3 - A distância pública "regras: "PULAR:E02;
+E01.4 - A distância particular "regras: "PULAR:E02;
+
 E02 - Local onde estuda?
-E02.01 - E02.01 - Plano Piloto
-E02.02 - E02.02 - Gama
-E02.03 - E02.03 - Taguatinga
-E02.04 - E02.04 - Brazlândia
-E02.05 - E02.05 - Sobradinho
-E02.06 - E02.06 - Planaltina
-E02.07 - E02.07 - Paranoá
-E02.08 - E02.08 - Núcleo Bandeirante
-E02.09 - E02.09 - Ceilândia
-E02.10 - E02.10 - Guará
-E02.11 - E02.11 - Cruzeiro
-E02.12 - E02.12 - Samambaia
-E02.13 - E02.13 - Santa Maria
-E02.14 - E02.14 - São Sebastião
-E02.15 - E02.15 - Recanto das Emas
-E02.16 - E02.16 - Lago Sul
-E02.17 - E02.17 - Riacho Fundo
-E02.18 - E02.18 - Lago Norte
-E02.19 - E02.19 - Candangolândia
-E02.20 - E02.20 - Águas Claras
-E02.21 - E02.21 - Riacho Fundo II
-E02.22 - E02.22 - Sudoeste/Octogonal
-E02.23 - E02.23 - Varjão
-E02.24 - E02.24 - Park Way
-E02.25 - E02.25 - SCIA-Estrutural
-E02.26 - E02.26 - Sobradinho II
-E02.27 - E02.27 - Jardim Botânico
-E02.28 - E02.28 - Itapoã
-E02.29 - E02.29 - SIA
-E02.30 - E02.30 - Vicente Pires
-E02.31 - E02.31 - Fercal
-E02.32 - E02.32 - Vários locais do DF
-E02.41 - E02.41 - Aguas Lindas de Goiás
-E02.42 - E02.42 - Alexânia
-E02.43 - E02.43 - Cidade Ocidental (Sede e ABC)
-E02.44 - E02.44 - Cristalina (Sede, Campos Lindos/ Marajó)
-E02.45 - E02.45 - Cocalzinho de Goiás (Sede, Girassol/Edilândia)
-E02.46 - E02.46 - Formosa
-E02.47 - E02.47 - Luziânia (Sede e Distritos)
-E02.48 - E02.48 - Novo Gama
-E02.49 - E02.49 - Padre Bernardo (Sede, Monte Alto)
-E02.50 - E02.50 - Planaltina
-E02.51 - E02.51 - Santo Antônio do Descoberto
-E02.52 - E02.52 - Valparaíso de Goiás
-E02.53 - E02.53 - Outros municípios da RIDE
-E02.54 - E02.54 - Anápolis
-E02.55 - E02.55 - Goiânia
-E02.56 - E02.56 - Outros locais
-E02.88 - E02.88 - Não sabe/não quis responder"}
-    ]
-},
-{
-    "id": "E03
+E02.01 - Plano Piloto
+E02.02 - Gama
+E02.03 - Taguatinga
+E02.04 - Brazlândia
+E02.05 - Sobradinho
+E02.06 - Planaltina
+E02.07 - Paranoá
+E02.08 - Núcleo Bandeirante
+E02.09 - Ceilândia
+E02.10 - Guará
+E02.11 - Cruzeiro
+E02.12 - Samambaia
+E02.13 - Santa Maria
+E02.14 - São Sebastião
+E02.15 - Recanto das Emas
+E02.16 - Lago Sul
+E02.17 - Riacho Fundo
+E02.18 - Lago Norte
+E02.19 - Candangolândia
+E02.20 - Águas Claras
+E02.21 - Riacho Fundo II
+E02.22 - Sudoeste/Octogonal
+E02.23 - Varjão
+E02.24 - Park Way
+E02.25 - SCIA-Estrutural
+E02.26 - Sobradinho II
+E02.27 - Jardim Botânico
+E02.28 - Itapoã
+E02.29 - SIA
+E02.30 - Vicente Pires
+E02.31 - Fercal
+E02.32 - Vários locais do DF
+E02.41 - Aguas Lindas de Goiás
+E02.42 - Alexânia
+E02.43 - Cidade Ocidental (Sede e ABC)
+E02.44 - Cristalina (Sede, Campos Lindos/ Marajó)
+E02.45 - Cocalzinho de Goiás (Sede, Girassol/Edilândia)
+E02.46 - Formosa
+E02.47 - Luziânia (Sede e Distritos)
+E02.48 - Novo Gama
+E02.49 - Padre Bernardo (Sede, Monte Alto)
+E02.50 - Planaltina
+E02.51 - Santo Antônio do Descoberto
+E02.52 - Valparaíso de Goiás
+E02.53 - Outros municípios da RIDE
+E02.54 - Anápolis
+E02.55 - Goiânia
+E02.56 - Outros locais
+E02.88 - Não sabe/não quis responder
+E02.99 - Não se aplica
+
 E03 - Qual seu nível de escolaridade?
-E03.01 - E03.01 - Analfabeto (15 anos e mais) "regras: "PULAR:E05;
-E03.02 - E03.02 - Sabe ler e escrever (15 anos e mais) "regras: "PULAR:E05;
-E03.03 - E03.03 - Alfabetização de jovens e adultos (15 anos e mais) "regras: "PULAR:E05;
-E03.04 - E03.04 - Ensino Especial "regras: "PULAR:E05;
-E03.05 - E03.05 - Maternal e Creche (0 anos a 3 anos) "regras: "PULAR:E05;
-E03.06 - E03.06 - Jardim I e II/ pré-escola (entre 4 e 5 anos) "regras: "PULAR:E05;
-E03.07 - E03.07 - EJA Ensino Fundamental incompleto (15 anos e mais) "regras: "PULAR:E05;
-E03.08 - E03.08 - EJA Ensino Fundamental completo (17 anos e mais) "regras: "PULAR:E05;
-E03.09 - E03.09 - EJA Ensino Médio incompleto (18 anos e mais) "regras: "PULAR:E05;
-E03.10 - E03.10 - EJA Ensino Médio completo (20 anos e mais) "regras: "PULAR:E05;
-E03.11 - E03.11 - Regular do Ensino fundamental incompleto (6 anos e mais)
-E03.12 - E03.12 - Regular do Ensino fundamental completo (13 anos e mais) "regras: "PULAR:E05;
-E03.13 - E03.13 - Regular do Ensino médio incompleto (14 anos e mais)
-E03.14 - E03.14 - Regular do Ensino médio completo (16 anos e mais) "regras: "PULAR:E05;
-E03.15 - E03.15 - Superior incompleto (16 anos e mais)
-E03.16 - E03.16 - Superior completo "regras: "PULAR:E05;
-E03.17 - E03.17 - Curso de Especialização (21 anos e mais)
-E03.18 - E03.18 - Mestrado (21 anos e mais)
-E03.19 - E03.19 - Doutorado (21 anos e mais)
-E03.20 - E03.20 - Crianças de 6 a 14 anos fora da escola "regras: "PULAR:E05;
-E03.88 - E03.88 - Não sabe/não quis responder "regras: "PULAR:E05;
-E03.99 - E03.99 - Menor de 6 anos fora da escola "regras: "FIM_REPETICAO;" }
-    ]
-},
-{
-    "id": "E04
+E03.01 - Analfabeto (15 anos e mais) "regras: "PULAR:E05;
+E03.02 - Sabe ler e escrever (15 anos e mais) "regras: "PULAR:E05;
+E03.03 - Alfabetização de jovens e adultos (15 anos e mais) "regras: "PULAR:E05;
+E03.04 - Ensino Especial "regras: "PULAR:E05;
+E03.05 - Maternal e Creche (0 anos a 3 anos) "regras: "PULAR:E05;
+E03.06 - Jardim I e II/ pré-escola (entre 4 e 5 anos) "regras: "PULAR:E05;
+E03.07 - EJA Ensino Fundamental incompleto (15 anos e mais) "regras: "PULAR:E05;
+E03.08 - EJA Ensino Fundamental completo (17 anos e mais) "regras: "PULAR:E05;
+E03.09 - EJA Ensino Médio incompleto (18 anos e mais) "regras: "PULAR:E05;
+E03.10 - EJA Ensino Médio completo (20 anos e mais) "regras: "PULAR:E05;
+E03.11 - Regular do Ensino fundamental incompleto (6 anos e mais)
+E03.12 - Regular do Ensino fundamental completo (13 anos e mais) "regras: "PULAR:E05;
+E03.13 - Regular do Ensino médio incompleto (14 anos e mais)
+E03.14 - Regular do Ensino médio completo (16 anos e mais) "regras: "PULAR:E05;
+E03.15 - Superior incompleto (16 anos e mais)
+E03.16 - Superior completo "regras: "PULAR:E05;
+E03.17 - Curso de Especialização (21 anos e mais)
+E03.18 - Mestrado (21 anos e mais)
+E03.19 - Doutorado (21 anos e mais)
+E03.20 - Crianças de 6 a 14 anos fora da escola "regras: "PULAR:E05;
+E03.88 - Não sabe/não quis responder "regras: "PULAR:E05;
+E03.99 - Menor de 6 anos fora da escola "regras: "FIM_REPETICAO;
+
+
 E04 - Série/Ano/Semestre concluído?
-E04.1 - E04.1 - Informar número campo: { tipo: "numerico - Série,Ano/Semestre" } }
-    ]
-},
-{
-    "id": "E05
+E04.1 - Informar número campo: { tipo: "numerico - Série,Ano/Semestre" } }
+E04.99 - Não se aplica
+
 E05 - Atualmente o Sr(a) está fazendo outro curso?
-E05.0 - E05.0 - Não faz
-E05.1 - E05.1 - Preparatório para concurso
-E05.2 - E05.2 - Preparatório para vestibular/Enem
-E05.3 - E05.3 - Preparatório para concurso e vestibular/Enem
-E05.4 - E05.4 - Pronatec
-E05.5 - E05.5 - Línguas
-E05.6 - E05.6 - Outros" }
-    ]
-},
-{
-    "id": "E06
-E06 - Qual a sua situação de atividade?
-    regras_exibicao: "VALOR:D05 >= 10;
-E06.0 - E06.0 - Não tem atividade "regras: "PULAR:E13;
-E06.1 - E06.1 - Tem trabalho remunerado (Incluindo estagiários e aprendizes)
-E06.2 - E06.2 - Aposentado "regras: "PULAR:E13;
-E06.3 - E06.3 - Aposentado trabalhando
-E06.4 - E06.4 - Pensionista "regras: "PULAR:E13;
-E06.5 - E06.5 - Do lar "regras: "PULAR:E13;
-E06.6 - E06.6 - Desempregado "regras: "PULAR:E13;
-E06.7 - E06.7 - Estudante "regras: "PULAR:E13;
-E06.8 - E06.8 - Trabalho voluntário "regras: "PULAR:E09;
-    ]
-},
-{
-    "id": "E07
-E07 - Qual setor da atividade remunerada?
-    regras_exibicao: "VALOR:D05 >= 10;
-E07.01 - E07.01 - Agricultura, Pecuária, Produção Florestal, Pesca e Aquicultura
-E07.02 - E07.02 - Construção
-E07.03 - E07.03 - Indústria
-E07.04 - E07.04 - Comércio
-E07.05 - E07.05 - Empresa Pública Federal
-E07.06 - E07.06 - Empresa Pública - GDF
-E07.07 - E07.07 - Administração Pública Federal
-E07.08 - E07.08 - Administração Pública - GDF
-E07.09 - E07.09 - Transporte e armazenagem
-E07.10 - E07.10 - Comunicação e informação
-E07.11 - E07.11 - Educação
-E07.12 - E07.12 - Saúde
-E07.13 - E07.13 - Serviços Domésticos
-E07.14 - E07.14 - Serviços pessoais
-E07.15 - E07.15 - Serviços creditícios e financeiros
-E07.16 - E07.16 - Serviços imobiliários
-E07.17 - E07.17 - Serviços gerais
-E07.18 - E07.18 - Administração Pública do município
-E07.19 - E07.19 - Administração Pública de Goiás
-E07.88 - E07.88 - Não sabe
-    ]
-},
-{
-    "id": "E08
-E08 - Qual a sua posição de ocupação?
-    regras_exibicao: "VALOR:D05 >= 10;
-E08.01 - E08.01 - Empregado com CTPS
-E08.02 - E08.02 - Empregado sem CTPS
-E08.03 - E08.03 – Empregado temporário
-E08.04 - E08.04 – Servidor público/militar
-E08.05 - E08.05 – Profissional Liberal
-E08.06 - E08.06 – Microempreendedor individual – MEI (0 ou 1 empregado)
-E08.07 - E08.07 - Microempresário (até 9 empregados)
-E08.08 - E08.08 – Pequeno empresário (10 até 49 empregados)
-E08.09 - E08.09 - Médio empresário (50 até 99 empregados)
-E08.10 - E08.10 – Grande empresário (100 ou mais empregados)
-E08.11 - E08.11 – Autônomo
-E08.12 - E08.12 – Estagiário/Aprendiz
-E08.13 - E08.13 – Cargo Comissionado
-E08.14 - E08.14 – Ajuda no negócio da família
-E08.88 - E08.88 – Não Sabe
-    ]
-},
-{
-    "id": "E09
-E09 – Local onde trabalha?
-    regras_exibicao: "VALOR:D05 >= 10;
-E09.01 - E09.01 - Plano Piloto
-E09.02 - E09.02 - Gama
-E09.03 - E09.03 - Taguatinga
-E09.04 - E09.04 - Brazlândia
-E09.05 - E09.05 - Sobradinho
-E09.06 - E09.06 - Planaltina
-E09.07 - E09.07 - Paranoá
-E09.08 - E09.08 - Núcleo Bandeirante
-E09.09 - E09.09 - Ceilândia
-E09.10 - E09.10 - Guará
-E09.11 - E09.11 - Cruzeiro
-E09.12 - E09.12 - Samambaia
-E09.13 - E09.13 - Santa Maria
-E09.14 - E09.14 - São Sebastião
-E09.15 - E09.15 - Recanto das Emas
-E09.16 - E09.16 - Lago Sul
-E09.17 - E09.17 - Riacho Fundo
-E09.18 - E09.18 - Lago Norte
-E09.19 - E09.19 - Candangolândia
-E09.20 - E09.20 - Águas Claras
-E09.21 - E09.21 - Riacho Fundo II
-E09.22 - E09.22 - Sudoeste/Octogonal
-E09.23 - E09.23 - Varjão
-E09.24 - E09.24 - Park Way
-E09.25 - E09.25 - SCIA-Estrutural
-E09.26 - E09.26 - Sobradinho II
-E09.27 - E09.27 - Jardim Botânico
-E09.28 - E09.28 - Itapoã
-E09.29 - E09.29 - SIA
-E09.30 - E09.30 - Vicente Pires
-E09.31 - E09.31 - Fercal
-E09.32 - E09.32 - Vários locais do DF
-E09.41 - E09.41 - Aguas Lindas de Goiás
-E09.42 - E09.42 - Alexânia
-E09.43 - E09.43 - Cidade Ocidental (sede e ABC)
-E09.44 - E09.44 - Cristalina (Sede, Campos Lindos/ Marajó)
-E09.45 - E09.45 - Cocalzinho de Goiás (Sede, Girassol/Edilândia)
-E09.46 - E09.46 - Formosa
-E09.47 - E09.47 - Luziânia (Sede e Distritos)
-E09.48 - E09.48 - Novo Gama
-E09.49 - E09.49 - Padre Bernardo (Sede, Monte Alto)
-E09.50 - E09.50 - Planaltina
-E09.51 - E09.51 - Santo Antônio do Descoberto
-E09.52 - E09.52 - Valparaíso de Goiás
-E09.53 - E09.53 - Outros municípios da RIDE
-E09.54 - E09.54 - Anápolis
-E09.55 - E09.55 - Goiânia
-E09.56 - E09.56 - Outros locais
-E09.88 - E09.88 - Não sabe/não quis responder
-    ]
-},
-{
-    "id": "E10
-E10 - Quanto tempo o Sr(a) gasta de casa até o seu trabalho?
-    regras_exibicao: "VALOR:D05 >= 10;
-E10.1 - E10.1 - Até 20 minutos
-E10.2 - E10.2 - Entre 20 e 40 minutos
-E10.3 - E10.3 - Entre 40 minutos e 1 hora
-E10.4 - E10.4 - Entre 1 hora e 1 hora e meia
-E10.5 - E10.5 - Entre 1 hora e meia e 2 horas
-E10.6 - E10.6 - De 2 horas a 3 horas
-E10.7 - E10.7 - Acima de 3 horas
-E10.8 - E10.8 - Não sabe/não quis responder
-    ]
-},
-{
-    "id": "E11
-E11 - Quais modos de transporte o Sr(a) utliza para ir  para o trabalho?
-    regras_exibicao: "VALOR:D05 >= 10;
-E11.1 - E11.1 - Ônibus
-E11.2 - E11.2 - Mais de um ônibus
-E11.3 - E11.3 - Automóvel
-E11.4 - E11.4 - Ônibus e automóvel
-E11.5 - E11.5 - Ônibus e metrô
-E11.6 - E11.6 - Automóvel e metrô
-E11.7 - E11.7 - Utilitário
-E11.8 - E11.8 - Metrô
-E11.9 - E11.9 - Motocicleta
-E11.10 - E11.10 - Bicicleta
-E11.11 - E11.11 - A pé
-E11.12 - E11.12 - Outros
-    ]
-},
-{
-    "id": "E12
-E12 - Quanto o Sr(a) recebeu no mês passado do Trabalho Principal (em R$, sem centavos)
-    regras_exibicao: "VALOR:D05 >= 10;
-E12.0 - E12.0 - Não teve rendimento no mês de referência
-E12.1 - E12.1 - R$ ____________,00 campo: { tipo: "moeda" } },
-E12.7 - E12.7 - Recusa
-E12.8 - E12.8 - Não sabe
-    ]
-},
-{
-    "id": "E13
-E13 - Quanto o Sr(a) recebeu no mês passado dos outros Rendimentos (em R$, sem centavos)
-    regras_exibicao: "VALOR:D05 >= 10;
-E13.0 - E13.0 - Não teve rendimento no mês de referência
-E13.1 - E13.1 - R$ ____________,00 campo: { tipo: "moeda" } },
-E13.7 - E13.7 - Recusa
-E13.8 - E13.8 - Não sabe
-    ]
-},
-{
-    "id": "E14
-E14 - O Sr(a) contribui para a Previdência Social Pública (INSS)?
-    regras_exibicao: "VALOR:D05 >= 10;
-E14.1 - E14.1 - Trabalha, mas não contribui
-E14.2 - E14.2 - Pública
-E14.3 - E14.3 - Privada
-E14.4 - E14.4 - Pública e privada
-E14.8 - E14.8 - Não sabe" }
-    ]
-},
-{
-    "id": "E15
-E15 - Local onde utiliza os serviços bancários?
-    regras_exibicao: "VALOR:D05 >= 10;
-E15.00 - E15.00 - Não utiliza serviços bancários
-E15.01 - E15.01 - Plano Piloto
-E15.02 - E15.02 - Gama
-E15.03 - E15.03 - Taguatinga
-E15.04 - E15.04 - Brazlândia
-E15.05 - E15.05 - Sobradinho
-E15.06 - E15.06 - Planaltina
-E15.07 - E15.07 - Paranoá
-E15.08 - E15.08 - Núcleo Bandeirante
-E15.09 - E15.09 - Ceilândia
-E15.10 - E15.10 - Guará
-E15.11 - E15.11 - Cruzeiro
-E15.12 - E15.12 - Samambaia
-E15.13 - E15.13 - Santa Maria
-E15.14 - E15.14 - São Sebastião
-E15.15 - E15.15 - Recanto das Emas
-E15.16 - E15.16 - Lago Sul
-E15.17 - E15.17 - Riacho Fundo
-E15.18 - E15.18 - Lago Norte
-E15.19 - E15.19 - Candangolândia
-E15.20 - E15.20 - Águas Claras
-E15.21 - E15.21 - Riacho Fundo II
-E15.22 - E15.22 - Sudoeste/Octogonal
-E15.23 - E15.23 - Varjão
-E15.24 - E15.24 - Park Way
-E15.25 - E15.25 - SCIA-Estrutural
-E15.26 - E15.26 - Sobradinho II
-E15.27 - E15.27 - Jardim Botânico
-E15.28 - E15.28 - Itapoã
-E15.29 - E15.29 - SIA
-E15.30 - E15.30 - Vicente Pires
-E15.31 - E15.31 - Fercal
-E15.32 - E15.32 - Vários locais do DF
-E15.41 - E15.41 - Aguas Lindas de Goiás
-E15.42 - E15.42 - Alexânia
-E15.43 - E15.43 - Cidade Ocidental (Sede e ABC)
-E15.44 - E15.44 - Cristalina (Sede, Campos Lindos/ Marajó)
-E15.45 - E15.45 - Cocalzinho de Goiás (Sede, Girassol/Edilândia)
-E15.46 - E15.46 - Formosa
-E15.47 - E15.47 - Luziânia (Sede e Distritos)
-E15.48 - E15.48 - Novo Gama
-E15.49 - E15.49 - Padre Bernardo (Sede, Monte Alto)
-E15.50 - E15.50 - Planaltina
-E15.51 - E15.51 - Santo Antônio do Descoberto
-E15.52 - E15.52 - Valparaíso de Goiás
-E15.53 - E15.53 - Outros municípios da RIDE
-E15.54 - E15.54 - Anápolis
-E15.55 - E15.55 - Goiânia
-E15.56 - E15.56 - Outros locais
-E15.88 - E15.88 - Não sabe/não quis responder
-    ]
-},
+E05.0 - Não faz
+E05.1 - Preparatório para concurso
+E05.2 - Preparatório para vestibular/Enem
+E05.3 - Preparatório para concurso e vestibular/Enem
+E05.4 - Pronatec
+E05.5 - Línguas
+E05.6 - Outros
 
+E06 - Qual a sua situação de atividade? "regras_exibicao: "VALOR:D05 >= 10;
+E06.0 - Não tem atividade "regras: "PULAR:E13;
+E06.1 - Tem trabalho remunerado (Incluindo estagiários e aprendizes)
+E06.2 - Aposentado "regras: "PULAR:E13;
+E06.3 - Aposentado trabalhando
+E06.4 - Pensionista "regras: "PULAR:E13;
+E06.5 - Do lar "regras: "PULAR:E13;
+E06.6 - Desempregado "regras: "PULAR:E13;
+E06.7 - Estudante "regras: "PULAR:E13;
+E06.8 - Trabalho voluntário "regras: "PULAR:E09;
+E06.9 - Não se aplica
 
-    ]
-}
-    ]
-},
-{
-BlocoF
-    titulo: "Bloco F – Fechamento 
-    items: [
-{
-F01
-Fechamento
-    campos: [
-F01.nOrdemEntrevistado - Quem foi o entrevistado: tipo: "caixa-selecao
-F01.telefoneEntrevistado - Telefone do entrevistado tipo: "telefone
-F01.observacoes - Observações referentes à pesquisa tipo: "texto-longo" }
-    ]
-}
-    ]
-}
-    ]
-}
+E07 - Qual setor da atividade remunerada? "regras_exibicao: "VALOR:D05 >= 10;
+E07.01 - Agricultura, Pecuária, Produção Florestal, Pesca e Aquicultura
+E07.02 - Construção
+E07.03 - Indústria
+E07.04 - Comércio
+E07.05 - Empresa Pública Federal
+E07.06 - Empresa Pública - GDF
+E07.07 - Administração Pública Federal
+E07.08 - Administração Pública - GDF
+E07.09 - Transporte e armazenagem
+E07.10 - Comunicação e informação
+E07.11 - Educação
+E07.12 - Saúde
+E07.13 - Serviços Domésticos
+E07.14 - Serviços pessoais
+E07.15 - Serviços creditícios e financeiros
+E07.16 - Serviços imobiliários
+E07.17 - Serviços gerais
+E07.18 - Administração Pública do município
+E07.19 - Administração Pública de Goiás
+E07.88 - Não sabe
+E07.99 - Não se aplica
+
+E08 - Qual a sua posição de ocupação? "regras_exibicao: "VALOR:D05 >= 10;
+E08.01 - Empregado com CTPS
+E08.02 - Empregado sem CTPS
+E08.03 – Empregado temporário
+E08.04 – Servidor público/militar
+E08.05 – Profissional Liberal
+E08.06 – Microempreendedor individual – MEI (0 ou 1 empregado)
+E08.07 - Microempresário (até 9 empregados)
+E08.08 – Pequeno empresário (10 até 49 empregados)
+E08.09 - Médio empresário (50 até 99 empregados)
+E08.10 – Grande empresário (100 ou mais empregados)
+E08.11 – Autônomo
+E08.12 – Estagiário/Aprendiz
+E08.13 – Cargo Comissionado
+E08.14 – Ajuda no negócio da família
+E08.88 – Não Sabe
+E08.99 – Não se aplica
+
+E09 – Local onde trabalha? "regras_exibicao: "VALOR:D05 >= 10;
+E09.01 - Plano Piloto
+E09.02 - Gama
+E09.03 - Taguatinga
+E09.04 - Brazlândia
+E09.05 - Sobradinho
+E09.06 - Planaltina
+E09.07 - Paranoá
+E09.08 - Núcleo Bandeirante
+E09.09 - Ceilândia
+E09.10 - Guará
+E09.11 - Cruzeiro
+E09.12 - Samambaia
+E09.13 - Santa Maria
+E09.14 - São Sebastião
+E09.15 - Recanto das Emas
+E09.16 - Lago Sul
+E09.17 - Riacho Fundo
+E09.18 - Lago Norte
+E09.19 - Candangolândia
+E09.20 - Águas Claras
+E09.21 - Riacho Fundo II
+E09.22 - Sudoeste/Octogonal
+E09.23 - Varjão
+E09.24 - Park Way
+E09.25 - SCIA-Estrutural
+E09.26 - Sobradinho II
+E09.27 - Jardim Botânico
+E09.28 - Itapoã
+E09.29 - SIA
+E09.30 - Vicente Pires
+E09.31 - Fercal
+E09.32 - Vários locais do DF
+E09.41 - Aguas Lindas de Goiás
+E09.42 - Alexânia
+E09.43 - Cidade Ocidental (sede e ABC)
+E09.44 - Cristalina (Sede, Campos Lindos/ Marajó)
+E09.45 - Cocalzinho de Goiás (Sede, Girassol/Edilândia)
+E09.46 - Formosa
+E09.47 - Luziânia (Sede e Distritos)
+E09.48 - Novo Gama
+E09.49 - Padre Bernardo (Sede, Monte Alto)
+E09.50 - Planaltina
+E09.51 - Santo Antônio do Descoberto
+E09.52 - Valparaíso de Goiás
+E09.53 - Outros municípios da RIDE
+E09.54 - Anápolis
+E09.55 - Goiânia
+E09.56 - Outros locais
+E09.88 - Não sabe/não quis responder
+E09.99 - Não se aplica
+
+E10 - Quanto tempo o Sr(a) gasta de casa até o seu trabalho? "regras_exibicao: "VALOR:D05 >= 10;
+E10.1 - Até 20 minutos
+E10.2 - Entre 20 e 40 minutos
+E10.3 - Entre 40 minutos e 1 hora
+E10.4 - Entre 1 hora e 1 hora e meia
+E10.5 - Entre 1 hora e meia e 2 horas
+E10.6 - De 2 horas a 3 horas
+E10.7 - Acima de 3 horas
+E10.8 - Não sabe/não quis responder
+E10.9 - Não se aplica
+
+E11 - Quais modos de transporte o Sr(a) utliza para ir  para o trabalho? "regras_exibicao: "VALOR:D05 >= 10;
+E11.1 - Ônibus
+E11.2 - Mais de um ônibus
+E11.3 - Automóvel
+E11.4 - Ônibus e automóvel
+E11.5 - Ônibus e metrô
+E11.6 - Automóvel e metrô
+E11.7 - Utilitário
+E11.8 - Metrô
+E11.9 - Motocicleta
+E11.10 - Bicicleta
+E11.11 - A pé
+E11.12 - Outros
+E11.99 - Não se aplica
+
+E12 - Quanto o Sr(a) recebeu no mês passado do Trabalho Principal (em R$, sem centavos) "regras_exibicao: "VALOR:D05 >= 10;
+E12.0 - Não teve rendimento no mês de referência
+E12.1 - R$ ____________,00 campo: { tipo: "moeda" } },
+E12.7 - Recusa
+E12.8 - Não sabe
+E12.99999 - Não se aplica
+
+E13 - Quanto o Sr(a) recebeu no mês passado dos outros Rendimentos (em R$, sem centavos) "regras_exibicao: "VALOR:D05 >= 10;
+E13.0 - Não teve rendimento no mês de referência
+E13.1 - R$ ____________,00 campo: { tipo: "moeda" } },
+E13.7 - Recusa
+E13.8 - Não sabe
+E13.99999 - Não se aplica
+
+E14 - O Sr(a) contribui para a Previdência Social Pública (INSS)? "regras_exibicao: "VALOR:D05 >= 10;
+E14.1 - Trabalha, mas não contribui
+E14.2 - Pública
+E14.3 - Privada
+E14.4 - Pública e privada
+E14.8 - Não sabe
+E14.9 - Não se aplica
+
+E15 - Local onde utiliza os serviços bancários? "regras_exibicao: "VALOR:D05 >= 10;
+E15.00 - Não utiliza serviços bancários
+E15.01 - Plano Piloto
+E15.02 - Gama
+E15.03 - Taguatinga
+E15.04 - Brazlândia
+E15.05 - Sobradinho
+E15.06 - Planaltina
+E15.07 - Paranoá
+E15.08 - Núcleo Bandeirante
+E15.09 - Ceilândia
+E15.10 - Guará
+E15.11 - Cruzeiro
+E15.12 - Samambaia
+E15.13 - Santa Maria
+E15.14 - São Sebastião
+E15.15 - Recanto das Emas
+E15.16 - Lago Sul
+E15.17 - Riacho Fundo
+E15.18 - Lago Norte
+E15.19 - Candangolândia
+E15.20 - Águas Claras
+E15.21 - Riacho Fundo II
+E15.22 - Sudoeste/Octogonal
+E15.23 - Varjão
+E15.24 - Park Way
+E15.25 - SCIA-Estrutural
+E15.26 - Sobradinho II
+E15.27 - Jardim Botânico
+E15.28 - Itapoã
+E15.29 - SIA
+E15.30 - Vicente Pires
+E15.31 - Fercal
+E15.32 - Vários locais do DF
+E15.41 - Aguas Lindas de Goiás
+E15.42 - Alexânia
+E15.43 - Cidade Ocidental (Sede e ABC)
+E15.44 - Cristalina (Sede, Campos Lindos/ Marajó)
+E15.45 - Cocalzinho de Goiás (Sede, Girassol/Edilândia)
+E15.46 - Formosa
+E15.47 - Luziânia (Sede e Distritos)
+E15.48 - Novo Gama
+E15.49 - Padre Bernardo (Sede, Monte Alto)
+E15.50 - Planaltina
+E15.51 - Santo Antônio do Descoberto
+E15.52 - Valparaíso de Goiás
+E15.53 - Outros municípios da RIDE
+E15.54 - Anápolis
+E15.55 - Goiânia
+E15.56 - Outros locais
+E15.88 - Não sabe/não quis responder
+E15.99 - Não se aplica
+
+Bloco F – Fechamento 
+
+F01.nOrdemEntrevistado - Quem foi o entrevistado
+F01.telefoneEntrevistado - Telefone do entrevistado
+F01.observacoes - Observações referentes à pesquisa
