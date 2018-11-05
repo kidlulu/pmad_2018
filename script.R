@@ -4,14 +4,14 @@ library(srvyr)
 library(stringr)
 
 rm(list = ls())
-db <- odbcConnect("DB_CODEPLAN", uid=35866, pwd='Meliodas083')
+db <- odbcConnect("DB_CODEPLAN", uid=, pwd='')
 sqlTables(db) %>% 
   filter(TABLE_SCHEM=="pmad2018") %>%
   select(TABLE_NAME)
 
 domicilio <- sqlQuery(db,"select * from pmad2018.domicilios_1023")
 
-colnames(domicilio)
+colnames(m)
 
 str_detect(colnames(domicilio),'C01')
 
@@ -485,10 +485,33 @@ domicilio <- domicilio %>%
                                 'Não se aplica'))
   ) 
 
+m <- sqlQuery(db,"select * from pmad2018.moradores_1023")
+
+moradores <- m %>%  
+  mutate(D02=factor(case_when(trimws(D02)=='D02.01'~1,
+                              trimws(D02)=='D02.02'~2,
+                              trimws(D02)=='D02.03'~3,
+                              trimws(D02)=='D02.04'~4,
+                              trimws(D02)=='D02.05'~5,
+                              trimws(D02)=='D02.06'~6,
+                              trimws(D02)=='D02.07'~7,
+                              trimws(D02)=='D02.08'~8,
+                              trimws(D02)=='D02.09'~9,
+                              trimws(D02)=='D02.10'~10),
+                    labels = c('Pessoa responsável pelo domicílio',
+                               'Cônjuge ou companheiro(a) de sexo diferente',
+                               #'Cônjuge ou companheiro(a) do mesmo sexo',
+                               'Filho(a)',
+                               'Enteado',
+                               'Outro parente',
+                               'Agregado(a) (Não é parente da pessoa de referência da família ou do cônjuge e não paga hospedagem nem alimentação)',
+                               'Pensionista (Não é parente da pessoa de referência da família ou do cônjuge e paga hospedagem) e/ou Alimentação',
+                               #'Empregado(a) doméstico(a)',
+                               'Outros'))
+        ) 
 
 table(domicilio$B04,useNA = "ifany")
 
 table(domicilio$C09,useNA = "ifany")
-
 
 View(domicilio %>% dplyr::filter(is.na(B04)==TRUE))
