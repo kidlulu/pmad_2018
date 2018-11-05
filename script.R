@@ -2,6 +2,7 @@ library(RODBC)
 library(dplyr)
 library(srvyr)
 library(stringr)
+
 rm(list = ls())
 db <- odbcConnect("db_codeplan2", uid=35866, pwd='Meliodas083')
 sqlTables(db) %>% 
