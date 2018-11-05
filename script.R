@@ -16,6 +16,7 @@ str_detect(colnames(d),'C01')
 
 table(d$B02,useNA = "ifany")
 
+#Atribuindo mascaras para as questões
 domicilio <- d %>% 
   mutate(tipo=factor(case_when(trimws(tipo)=='Tipo.1'~10,
                                trimws(tipo)=='Tipo.2'~20,
@@ -93,22 +94,11 @@ domicilio <- d %>%
                                  # 'Funcional',
                                  # 'Outros')),
 
-         B04=as.numeric(case_when(trimws(B03) %in% c('B03.1','B03.3','B03.4',
-                                                     'B03.5','B03.6','B03.7',
-                                                     'B03.8','B03.9','B03.10',
-                                                     'B03.11','B03.12','B03.13',
-                                                     'B03.14','B03.15')~99999,
-                                  trimws(B0477777)=='B04.77777'~77777,
+         B04=as.numeric(case_when(trimws(B0477777)=='B04.77777'~77777,
                                   trimws(B0488888)=='B04.88888'~88888,
                                   B041>=0~B041)),
          
-         B05=as.numeric(case_when(trimws(B03) %in% c('B03.1','B03.3','B03.4', 
-                                                     'B03.5','B03.10','B03.11',
-                                                     'B03.12','B03.13','B03.14','B03.15')~99999,
-                                  trimws(B0477777)=='B04.77777'~99999,
-                                  trimws(B0488888)=='B04.88888'~99999,
-                                  B041>=0~99999,
-                                  trimws(B0577777)=='B05.77777'~77777,
+         B05=as.numeric(case_when(trimws(B0577777)=='B05.77777'~77777,
                                   trimws(B0588888)=='B05.88888'~88888,
                                   B051>=0~B051)),
          
@@ -373,8 +363,7 @@ domicilio <- d %>%
                                 'Não uso porque considero os serviços/produtos/taxas insatisfatórios', 
                                 'Não sabe/não quis responder')),
          
-         C09=factor(case_when(trimws(C08)=='Não uso porque considero os serviços/produtos/taxas insatisfatórios'~99,
-                              trimws(C09)=='C09.01'~01,
+         C09=factor(case_when(trimws(C09)=='C09.01'~01,
                               trimws(C09)=='C09.02'~02,
                               trimws(C09)=='C09.03'~03,
                               trimws(C09)=='C09.04'~04,
@@ -393,8 +382,7 @@ domicilio <- d %>%
                                 'Canais de atendimento',
                                 'Recebimento de salário',
                                 'Outros',
-                                'Não sabe/não quis responder',
-                                'Não se aplica')),
+                                'Não sabe/não quis responder')),
          
          C101=factor(case_when(trimws(C101)=='C10.1'~1,
                                    trimws(C101)=='C10.2'~2,
@@ -472,18 +460,34 @@ domicilio <- d %>%
                                  'Não sabe/não quis responder'))
   ) 
 
-x <- domicilio %>%
-  dplyr::filter(B01=="Permanente")
+#Tratamento dos "Saltos"
+domicilio <- domicilio %>% 
+  mutate(B04=as.numeric(case_when(as.numeric(B03) %in% c(1,3,4,5,6,7,8,9,10,11,12,13,14,15)~99999,
+                                  TRUE~B04)),
+         
+         B05=as.numeric(case_when(as.numeric(B03) %in% c(1,2,3,4,5,10,11,12,13,14,15)~99999,
+                                  B04>=0~99999,
+                                  TRUE~B05)),
+         
+         C09=factor(case_when(as.numeric(C08)==4~99,
+                              TRUE~as.numeric(C09)),
+                    labels = c( 'Cartão de Crédito',
+                                'Financiamento/Empréstimo',
+                                'Investimento',
+                                'Recebimento de contas',
+                                'Seguro',
+                                'Previdência',
+                                'Canais de atendimento',
+                                'Recebimento de salário',
+                                'Outros',
+                                'Não sabe/não quis responder',
+                                'Não se aplica'))
+  ) 
 
-codefile <- tempfile()
 
-foreign::write.foreign(domicilio,"D:/teste.txt","D:/teste.sps",package = "SPSS")
+table(domicilio$B04,useNA = "ifany")
 
-table(d$tipo)
+table(domicilio$C09,useNA = "ifany")
 
-visita$A01municipio <- stringr::str_replace(visita$A01municipio, "Águas Lindas", "5200258")
 
-as.numeric(x)
-as.logical(x)
-as.character(x)
-as.factor(x)
+View(domicilio %>% dplyr::filter(is.na(B04)==TRUE))
