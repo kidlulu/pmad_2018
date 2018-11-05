@@ -4,21 +4,21 @@ library(srvyr)
 library(stringr)
 
 rm(list = ls())
-db <- odbcConnect("db_codeplan2", uid=35866, pwd='Meliodas083')
+db <- odbcConnect("DB_CODEPLAN", uid=35866, pwd='Meliodas083')
 sqlTables(db) %>% 
   filter(TABLE_SCHEM=="pmad2018") %>%
   select(TABLE_NAME)
 
-d <- sqlQuery(db,"select * from pmad2018.domicilios_1023")
+domicilio <- sqlQuery(db,"select * from pmad2018.domicilios_1023")
 
-colnames(d)
+colnames(domicilio)
 
-str_detect(colnames(d),'C01')
+str_detect(colnames(domicilio),'C01')
 
-table(d$B02,useNA = "ifany")
+table(domicilio$B02,useNA = "ifany")
 
 #Atribuindo mascaras para as questões
-domicilio <- d %>% 
+domicilio <- domicilio %>% 
   mutate(tipo=factor(case_when(trimws(tipo)=='Tipo.1'~10,
                                trimws(tipo)=='Tipo.2'~20,
                                trimws(tipo)=='Tipo.3'~30,
