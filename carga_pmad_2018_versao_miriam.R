@@ -10,7 +10,16 @@ db <- DBI::dbConnect(odbc(),"db_codeplan", uid="", pwd="")
 
 dom <- data.table::fread('PMAD2018_dom.csv',#colClasses = 'characterer'#
                          encoding = 'Latin-1') %>% 
-  dplyr::mutate(setorcensitario = as.character(setorcensitario))
+  dplyr::mutate(setorcensitario = as.character(setorcensitario),
+                municipio = gsub("Á","A",municipio),
+                municipio = gsub("á","a",municipio),
+                municipio = gsub("í","i",municipio),
+                A01setor = gsub("Á","A",municipio),
+                A01setor = gsub("á","a",municipio),
+                A01setor = gsub("í","i",municipio))
+
+#table(Encoding(dom$localidade)) <- "latin1"
+
 
 x <- data.frame(type=sapply(dom, class),
                 nc=unlist(lapply(dom, function(x) max(nchar(x), na.rm = T))),
@@ -30,7 +39,9 @@ x <- data.frame(type=sapply(dom, class),
 
 columnTypes <- setNames(as.list(x$coltype),names(dom))
 
-dbExecute(db,"ALTER USER [35866] WITH DEFAULT_SCHEMA = [dbo]")
+# columnTypes$municipio <- "VARCHAR(MAX)"
+
+dbExecute(db,"ALTER USER [35866] WITH DEFAULT_SCHEMA = [pmad2018]")
 
 DBI::dbGetQuery(db,"IF OBJECT_ID('pmad2018.domi2018', 'U') IS NOT NULL DROP TABLE pmad2018.domi2018")
 
@@ -47,7 +58,14 @@ rm(list = ls())
 db <- DBI::dbConnect(odbc(),"db_codeplan", uid="", pwd="")
 
 mor <- data.table::fread('PMAD2018_mor.csv',#colClasses = 'characterer'#
-                         encoding = 'Latin-1')
+                         encoding = 'Latin-1') %>% 
+  dplyr::mutate(setorcensitario = as.character(setorcensitario),
+                municipio = gsub("Á","A",municipio),
+                municipio = gsub("á","a",municipio),
+                municipio = gsub("í","i",municipio),
+                A01setor = gsub("Á","A",municipio),
+                A01setor = gsub("á","a",municipio),
+                A01setor = gsub("í","i",municipio))
 
 x <- data.frame(type=sapply(mor, class),
                 nc=unlist(lapply(mor, function(x) max(nchar(x), na.rm = T))),
@@ -74,3 +92,4 @@ DBI::dbGetQuery(db,"IF OBJECT_ID('pmad2018.mora2018', 'U') IS NOT NULL DROP TABL
 DBI::dbWriteTable(db,"mora2018",mor,field.types = columnTypes)
 
 rm(list = ls())
+
