@@ -4,7 +4,7 @@ library(srvyr)
 library(stringr)
 
 rm(list = ls())
-db <- odbcConnect("DB_CODEPLAN", uid=, pwd='')
+db <- odbcConnect("DB_CODEPLAN", uid=36692, pwd='5en4pq7w5p')
 sqlTables(db) %>% 
   filter(TABLE_SCHEM=="pmad2018") %>%
   select(TABLE_NAME)
