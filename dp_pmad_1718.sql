@@ -58,11 +58,11 @@ select
   d1.QT_DOM_BANHEIRO as B09,
   d1.TP_DOM_ABAST_AGUA as B10,
   d1.TP_DOM_CONS_AGUA_POT as B11,
-  d1.TP_DOM_ECONOMIZAR_AGUA as B12,
-  d1.TP_DOM_FALTA_AGUA as B13,
+  case when d1.TP_DOM_ECONOMIZAR_AGUA = 8 then 88 else d1.TP_DOM_ECONOMIZAR_AGUA end as B12,
+  case when d1.TP_DOM_FALTA_AGUA = 8 then 88 else d1.TP_DOM_FALTA_AGUA end as B13,
   d1.TP_DOM_ABAST_ENERGIA as B14,
-  d1.TP_DOM_ECONOMIZAR_ENERGIA as B15,
-  d1.TP_DOM_FALTA_ENERGIA as B16,
+  case when d1.TP_DOM_ECONOMIZAR_ENERGIA = 8 then 88 else d1.TP_DOM_ECONOMIZAR_ENERGIA end as B15,
+  case when d1.TP_DOM_FALTA_ENERGIA = 8 then 88 else d1.TP_DOM_FALTA_ENERGIA end as B16,
   d1.TP_DOM_ESGOT_SANITARIO as B17,
   d1.TP_DOM_COLETA_LIXO as B18,
   d1.ST_DOM_RUA_ASFALTADA as B191,
@@ -153,21 +153,33 @@ select
        else d1.ST_DOM_SERV_BANCARIOS
   end as C08,
   case when d1.ST_DOM_SERV_BANCARIOS = 4 then 99
+       when d1.ST_DOM_SERV_BANCARIOS = 8 then 88
        else d1.ST_DOM_SERV_IMPORT_BANCO
   end as C09,
-  case when d1.ST_DOM_RECODAR_BANCO1 = 9 then 88
+  case when d1.ST_DOM_SERV_BANCARIOS = 4 then 99
+       when d1.ST_DOM_SERV_BANCARIOS = 8 then 88
+       when d1.ST_DOM_RECODAR_BANCO1 = 9 then 88
        else d1.ST_DOM_RECODAR_BANCO1
   end as C101,
-  case when d1.ST_DOM_RECODAR_BANCO1 = 9 then 99
+  case when d1.ST_DOM_SERV_BANCARIOS = 4 then 99
+       when d1.ST_DOM_SERV_BANCARIOS = 8 then 88
+       when d1.ST_DOM_RECODAR_BANCO1 = 9 then 88
+       when d1.ST_DOM_RECODAR_BANCO2 = 9 then 88
        else d1.ST_DOM_RECODAR_BANCO2
   end as C102,
-  case when d1.ST_DOM_RECODAR_BANCO1 = 9 then 99
-       when d1.ST_DOM_RECODAR_BANCO2 = 9 then 99
+  case when d1.ST_DOM_SERV_BANCARIOS = 4 then 99
+       when d1.ST_DOM_SERV_BANCARIOS = 8 then 88
+       when d1.ST_DOM_RECODAR_BANCO1 = 9 then 88
+       when d1.ST_DOM_RECODAR_BANCO2 = 9 then 88
+       when d1.ST_DOM_RECODAR_BANCO3 = 9 then 88
        else d1.ST_DOM_RECODAR_BANCO3
   end as C103,
-  case when d1.ST_DOM_RECODAR_BANCO1 = 9 then 99
-       when d1.ST_DOM_RECODAR_BANCO2 = 9 then 99
-       when d1.ST_DOM_RECODAR_BANCO3 = 9 then 99
+  case when d1.ST_DOM_SERV_BANCARIOS = 4 then 99
+       when d1.ST_DOM_SERV_BANCARIOS = 8 then 88
+       when d1.ST_DOM_RECODAR_BANCO1 = 9 then 88
+       when d1.ST_DOM_RECODAR_BANCO2 = 9 then 88
+       when d1.ST_DOM_RECODAR_BANCO3 = 9 then 88
+       when d1.ST_DOM_RECODAR_BANCO4 = 9 then 88
        else d1.ST_DOM_RECODAR_BANCO4
   end as C104
 into pmad2018.dp_dom_1718
