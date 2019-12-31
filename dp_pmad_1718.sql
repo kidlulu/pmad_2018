@@ -275,24 +275,32 @@ select
        else m1.QT_MOR_TEMPO_MUNICIPIO 
   end as D15,
   m1.TP_MOR_ACESSO_INT as D16,
-  m1.TP_MOR_PLANO_SAUDE as D17,
+  CASE WHEN m1.TP_MOR_PLANO_SAUDE = 8 THEN 88 ELSE m1.TP_MOR_PLANO_SAUDE END as D17,
   m1.ST_MOR_HOSPITAL as D18,
   m1.ST_MOR_POSTO_SAUDE as D19,
   m1.TP_MOR_VIOLENCIA as D20,
-  case when m1.LC_MOR_VIOLENCIA = 8 then 88
+  case when m1.TP_MOR_VIOLENCIA in (0,99) then 99
+       when m1.TP_MOR_VIOLENCIA = 88 then 88
+       when m1.LC_MOR_VIOLENCIA = 8 then 88
        when m1.LC_MOR_VIOLENCIA = 9 then 99
        else m1.LC_MOR_VIOLENCIA
   end as D21,
-  case when m1.TP_MOR_REGISTROU_QUEIXA in (6,8) then 88
+  case when m1.TP_MOR_VIOLENCIA in (0,99) then 99
+       when m1.TP_MOR_VIOLENCIA = 88 then 88
+       when m1.LC_MOR_VIOLENCIA = 8 then 88
+       when m1.LC_MOR_VIOLENCIA = 9 then 99
+       when m1.TP_MOR_REGISTROU_QUEIXA in (6,8) then 88
        when m1.TP_MOR_REGISTROU_QUEIXA in (0,9) then 99
        else m1.TP_MOR_REGISTROU_QUEIXA
   end as D22,
-  m1.FQ_MOR_ESCOLA as E01,
+  CASE WHEN m1.FQ_MOR_ESCOLA = 8 THEN 88 ELSE m1.FQ_MOR_ESCOLA END as E01,
   case when m1.LC_MOR_ESTUDA = 0 then 99 else m1.LC_MOR_ESTUDA end as E02,
   m1.TP_MOR_NIVEL_ESCOLARIDADE as E03,
   case when m1.TP_MOR_SERIE_CONCLUIDA = 0 then 99 else m1.TP_MOR_SERIE_CONCLUIDA end as E04,
   m1.TP_MOR_OUTROS_CURSOS as E05,
-  case when m1.ST_MOR_SITUACAO_ATIVIDADE = 9 then 99 else m1.ST_MOR_SITUACAO_ATIVIDADE end as E06,
+  case when m1.ST_MOR_SITUACAO_ATIVIDADE = 9 then 99 
+       else m1.ST_MOR_SITUACAO_ATIVIDADE 
+  end as E06,
   case when m1.ST_MOR_ATV_REMUNERADA = 0 then 99 else m1.ST_MOR_ATV_REMUNERADA end as E07,
   case when m1.TP_MOR_OCUPACAO = 0 then 99 else m1.TP_MOR_OCUPACAO end as E08,
   case when m1.LC_MOR_TRABALHA = 0 then 99 else m1.LC_MOR_TRABALHA end as E09,
