@@ -271,10 +271,11 @@ select
   m1.DT_MOR_ANO_CHEGADA as D12,
   m1.TP_MOR_ORIGEM as D13,
   m1.RZ_MOR_PQ_VEIO as D14,
-  case when m1.QT_MOR_TEMPO_MUNICIPIO in (8,9) then 888
+  case when m1.QT_MOR_TEMPO_MUNICIPIO = 88 then 888
+       when m1.QT_MOR_TEMPO_MUNICIPIO = 99 then 999
        else m1.QT_MOR_TEMPO_MUNICIPIO 
   end as D15,
-  m1.TP_MOR_ACESSO_INT as D16,
+  CASE WHEN m1.TP_MOR_ACESSO_INT = 8 THEN 88 ELSE m1.TP_MOR_ACESSO_INT end as D16,
   CASE WHEN m1.TP_MOR_PLANO_SAUDE = 8 THEN 88 ELSE m1.TP_MOR_PLANO_SAUDE END as D17,
   m1.ST_MOR_HOSPITAL as D18,
   m1.ST_MOR_POSTO_SAUDE as D19,
@@ -311,7 +312,7 @@ select
   case when m1.TP_MOR_MODO_TRANSPORTE = 0 then 99 else m1.TP_MOR_MODO_TRANSPORTE end as E11,
   m1.VL_MOR_RENDIMENTOS_BRUTOS as E12,
   m1.VL_MOR_OUTROS_RENDIMENTOS as E13,
-  case when m1.TP_MOR_PREVIDENCIA in (0,9) then 99
+  case when m1.TP_MOR_PREVIDENCIA = 9 then 99
        when m1.TP_MOR_PREVIDENCIA = 8 then 88
        else m1.TP_MOR_PREVIDENCIA
   end as E14,
@@ -330,7 +331,8 @@ select
        else null 
   end as municipio, 
   A01setor, A01nficha, A01nPessoas, D02, D06, D03, D04, D05, D07, D08, D09, D10, D11, D12, D13, D14, D15, D16, 
-  D17, D18, D19, D20, D21, D22, E01, E02, E03, E04, E05, E06, E07, E08, E09, E10, E11, E12, E13, E14, E15
+  D17, D18, D19, D20, D21, D22, 
+  case when E01 = 8 then 88 else E01 end as E01, E02, E03, E04, E05, E06, E07, E08, E09, E10, E11, E12, E13, E14, E15
 from pmad2018.mora2018;
 
 delete from pmad2018.dp_dom_1718 
