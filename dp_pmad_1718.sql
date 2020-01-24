@@ -1,6 +1,6 @@
 use db_codeplan;
 
-IF OBJECT_ID('pmad2018.dp_dom_1718', 'U') IS NOT NULL DROP TABLE pmad2018.dp_dom_1718; 
+IF OBJECT_ID('pmad2018.tmp', 'U') IS NOT NULL DROP TABLE pmad2018.tmp; 
 
 select
   2017 as referencia,
@@ -40,7 +40,7 @@ select
        when d1.DISTRITO = 17 then 'Valparaíso de Goiás' 
        else null
   end as A01setor,
-  d1.NR_DOM_FICHA as A01nficha,
+  d1.CD_SEQ_DOM as A01nficha_ant,
   cast(d1.SETOR_CENSITÁRIO as bigint) as setorcensitario, 
   d1.QT_DOM_MORADORES as A01nPessoas,
   convert(date,CONCAT(
@@ -182,10 +182,10 @@ select
        when d1.ST_DOM_RECODAR_BANCO4 = 9 then 88
        else d1.ST_DOM_RECODAR_BANCO4
   end as C104
-into pmad2018.dp_dom_1718
+into pmad2018.tmp
 from pmad2018.dom2017 d1;
 
-insert into pmad2018.dp_dom_1718
+insert into pmad2018.tmp
 select 
  2018 as referencia, 
  FATOR_MUN, 
@@ -197,7 +197,7 @@ select
       else null 
  end as municipio, 
  cast(A01setor as varchar(39)) as A01setor, 
- A01nficha, 
+ A01nficha as A01nficha_ant, 
  cast(setorcensitario as bigint) as setorcensitario, 
  A01nPessoas, 
  CONVERT(date,CONCAT(SUBSTRING(datavisita,9,2),'/',
@@ -211,7 +211,27 @@ select
  C08, C09, C101, C102, C103, C104 
 from pmad2018.dom2018;
 
-IF OBJECT_ID('pmad2018.dp_mor_1718', 'U') IS NOT NULL DROP TABLE pmad2018.dp_mor_1718; 
+IF OBJECT_ID('pmad2018.dp_dom_1718', 'U') IS NOT NULL DROP TABLE pmad2018.dp_dom_1718; 
+
+select
+referencia, FATOR_MUN, municipio, A01setor, A01nficha_ant, ROW_NUMBER() OVER(ORDER BY municipio, A01setor, A01nficha_ant) AS A01nficha, 
+setorcensitario, A01nPessoas, datavisita, B01, B02, B03, B04, B05, B06, B07, B08, B09, B10, B11, B12, B13, B14, B15, B16, B17, B18, 
+B191, B192, B193, B194, B195, B201, B202, B203, B204, B205, B206, B211, B212, B213, B214, B215, B216, B217, B218, B22, B231, B232, 
+B233, B234, C011, C012, C013, C014, C015, C016, C017, C018, C019, C021, C022, C023, C031, C032, C033, C034, C0401, C0402, C0403, 
+C0404, C0405, C0406, C0407, C0408, C0409, C0410, C0411, C0412, C0413, C0414, C0415, C0416, C0417, C0418, C0419, C0420, C0421, C0422, 
+C051, C052, C053, C061, C062, C063, C064, C065, C066, C07, C08, C09, C101, C102, C103, C104
+into pmad2018.dp_dom_1718
+from pmad2018.tmp;
+
+
+
+
+
+
+
+
+
+IF OBJECT_ID('pmad2018.tmp', 'U') IS NOT NULL DROP TABLE pmad2018.tmp; 
 
 select
   2017 as referencia, 
@@ -250,7 +270,7 @@ select
        when m1.DISTRITO = 17 then 'Valparaíso de Goiás' 
        else null
   end as A01setor,
-  m1.NR_DOM_FICHA as A01nficha,
+  m1.CD_SEQ_DOM as A01nficha_ant,
   m1.QT_DOM_MORADORES as A01nPessoas,
   m1.TP_MOR_COND_UNID as D02,
   case when m1.TP_MOR_RESPON_COMPARTILHADA = 9 then 99 else m1.TP_MOR_RESPON_COMPARTILHADA end as D06,
@@ -317,10 +337,10 @@ select
        else m1.TP_MOR_PREVIDENCIA
   end as E14,
   m1.LC_MOR_SER_BANCARIOS as E15
-into pmad2018.dp_mor_1718
+into pmad2018.tmp
 from pmad2018.mora2017 m1;
 
-insert into pmad2018.dp_mor_1718
+insert into pmad2018.tmp
 select 
   2018 as referencia, 
   case when ltrim(rtrim(municipio)) = 'Planaltina' then  cast('Planaltina' as varchar(27))
@@ -330,28 +350,37 @@ select
        when ltrim(rtrim(municipio)) = 'Cocalzinho de Goias' then cast('Cocalzinho de Goiás' as varchar(27))
        else null 
   end as municipio, 
-  A01setor, A01nficha, A01nPessoas, D02, D06, D03, D04, D05, D07, D08, D09, D10, D11, D12, D13, D14, D15, D16, 
+  A01setor, A01nficha as A01nficha_ant, A01nPessoas, D02, D06, D03, D04, D05, D07, D08, D09, D10, D11, D12, D13, D14, D15, D16, 
   D17, D18, D19, D20, D21, D22, 
   case when E01 = 8 then 88 else E01 end as E01, E02, E03, E04, E05, E06, E07, E08, E09, E10, E11, E12, E13, E14, E15
 from pmad2018.mora2018;
 
-delete from pmad2018.dp_dom_1718 
-where A01nficha in (5, 20, 23, 31, 34, 52, 61, 62, 63, 66, 72, 82, 86, 89, 94, 100, 108, 115, 
-                    116, 120, 132, 133, 135, 136, 137, 140, 152, 154, 155, 156, 180, 181, 193, 
-                    196, 201, 217, 225, 226, 228, 266, 276, 277, 282, 283, 292, 298, 300, 302, 
-                    303, 305, 311, 323, 332, 342, 346, 356, 360, 361, 364, 368, 369, 372, 373, 
-                    378, 379, 397, 407, 410, 414, 417, 426, 435, 437, 455, 456, 460, 462, 469, 
-                    473, 476, 484, 490, 498, 501, 509, 513, 524, 532, 533, 538, 560, 572, 595, 
-                    597, 615, 638, 641, 654, 665, 682, 695, 711, 716, 757, 768, 777, 866, 886);
+IF OBJECT_ID('pmad2018.dp_mor_1718', 'U') IS NOT NULL DROP TABLE pmad2018.dp_mor_1718; 
 
-delete from pmad2018.dp_mor_1718
-where A01nficha in (5, 20, 23, 31, 34, 52, 61, 62, 63, 66, 72, 82, 86, 89, 94, 100, 108, 115, 
-                    116, 120, 132, 133, 135, 136, 137, 140, 152, 154, 155, 156, 180, 181, 193, 
-                    196, 201, 217, 225, 226, 228, 266, 276, 277, 282, 283, 292, 298, 300, 302, 
-                    303, 305, 311, 323, 332, 342, 346, 356, 360, 361, 364, 368, 369, 372, 373, 
-                    378, 379, 397, 407, 410, 414, 417, 426, 435, 437, 455, 456, 460, 462, 469, 
-                    473, 476, 484, 490, 498, 501, 509, 513, 524, 532, 533, 538, 560, 572, 595, 
-                    597, 615, 638, 641, 654, 665, 682, 695, 711, 716, 757, 768, 777, 866, 886);
+select
+t1.referencia, t1.municipio, t1.A01setor, t1.A01nficha_ant, t2.A01nficha, t1.A01nPessoas, 
+ROW_NUMBER() OVER(ORDER BY t1.municipio, t1.A01setor, t2.A01nficha, t1.D05) AS D01,
+t1.D02, t1.D06, t1.D03, t1.D04, t1.D05, t1.D07, t1.D08, t1.D09, t1.D10, t1.D11, t1.D12, t1.D13, 
+t1.D14, t1.D15, t1.D16, t1.D17, t1.D18, t1.D19, t1.D20, t1.D21, t1.D22, 
+t1.E01, t1.E02, t1.E03, t1.E04, t1.E05, t1.E06, t1.E07, t1.E08, t1.E09, 
+t1.E10, t1.E11, t1.E12, t1.E13, t1.E14, t1.E15
+into pmad2018.dp_mor_1718
+from pmad2018.tmp t1,
+     pmad2018.dp_dom_1718 t2
+where t1.municipio = t2.municipio
+and t1.A01setor = t2.A01setor
+and t1.A01nficha_ant = t2.A01nficha_ant;
+
+IF OBJECT_ID('pmad2018.tmp', 'U') IS NOT NULL DROP TABLE pmad2018.tmp; 
+
+
+
+
+
+
+
+
+
 
 update pmad2018.dp_dom_1718
 set A01setor = 'Cocalzinho de Goiás: Sede'
@@ -802,3 +831,115 @@ update pmad2018.dp_dom_1718 set peso_pre = 27.0215384615385, pop_proj = 73636 wh
 update pmad2018.dp_dom_1718 set peso_pre = 35.8227272727273, pop_proj = 164723 where A01setor = 'Valparaíso de Goiás';
 
 update pmad2018.dp_mor_1718 set D07 = 1 where A01nficha = 4635 and D05 = 19;
+
+
+
+
+
+/*Exclusões feitas na 6876 e 9896 por não ter morador na base de morador.*/
+/*Exclusão feita na 4733 por ausência de responsável pelo domicílio.*/
+delete from pmad2018.dp_dom_1718 
+where A01nficha in (6876,9896,4733);
+
+/*Exclusão de domicílio com pessoas sem */
+delete from pmad2018.dp_mor_1718
+where A01nficha in (6876,9896,4733);
+
+/*Regra para corrigir problema de domicílio com o número de cômodos inferior a soma do número de banheiro com dormitório*/
+update pmad2018.dp_dom_1718
+set B07 = B08 + B09
+where B08 + B09 > B07;
+
+/*Regra para corrigir problema de domicílio com o número de cômodos inferior a soma do número de banheiro com dormitório*/
+update pmad2018.dp_dom_1718
+set B07 = B08 + B09
+where B08 + B09 > B07;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Domicílios com resposta em C02 mas sem veículo em C01*/
+update pmad2018.dp_dom_1718
+set C021 = 0, C022 = 0, C023 = 0
+where A01nficha in (4181,5005,6507,2269,6041,5132,1275,4141,9746,1453);
+
+/*Domicílios com com veículo mas sem informar local de emplacamento*/
+update pmad2018.dp_dom_1718
+set C021 = C011+C012+C013+C014+C015+C016+C019
+where A01nficha in (183, 752, 981, 1143, 1181, 1188, 1195, 1196, 1248, 1266, 1313, 1325, 1585, 1686, 
+1707, 1742, 2048, 3318, 3497, 3719, 3755, 3787, 3940, 4045, 4295, 4310, 4329, 4334, 4335, 4656, 4674, 
+4725, 4970, 5046, 5298, 5635, 5856, 5901, 5935, 5973, 6410, 6458, 6742, 7389, 7482, 8431, 8615, 8922, 
+9582, 9877, 10106, 10109, 10623);
+
+/*Domicílios com nº de veículos diferente de nº de emplacados com resposta apenas em C02.1*/
+update pmad2018.dp_dom_1718
+set C021 = C011+C012+C013+C014+C015+C016+C019
+where A01nficha in (54, 56, 204, 548, 584, 965, 1018, 1070, 1097, 1112, 1149, 1178, 1201, 1211, 1237, 1322, 1324, 1332, 1358, 1372, 1408, 1413, 1528, 1538, 1961, 
+1989, 1999, 2020, 2053, 2088, 2175, 2182, 2188, 2211, 2258, 2367, 2462, 2505, 2546, 2663, 2683, 2688, 2732, 2737, 2739, 2741, 2749, 2755, 2806, 
+2899, 2974, 2989, 3002, 3209, 3249, 3673, 3685, 3750, 3818, 4162, 4214, 4217, 4235, 4237, 4247, 4261, 4279, 4301, 4305, 4315, 4319, 4325, 4336, 
+4342, 4350, 4374, 4482, 4506, 4649, 4711, 4715, 4719, 4749, 4753, 4756, 4759, 4797, 4799, 4819, 4829, 4837, 4839, 4843, 4844, 4846, 4850, 4856, 
+4860, 4862, 4865, 4866, 4868, 4875, 4878, 4897, 4927, 4929, 4936, 4945, 4949, 4957, 4959, 4962, 4975, 4982, 4987, 4989, 5012, 5014, 5021, 5031, 
+5032, 5039, 5047, 5090, 5174, 5231, 5283, 5299, 5300, 5388, 5465, 5488, 5650, 5743, 5759, 5847, 6017, 6050, 6070, 6115, 6146, 6155, 6183, 6195, 
+6238, 6256, 6277, 6287, 6302, 6323, 6390, 6405, 6424, 6447, 6450, 6476, 6503, 6541, 6551, 6563, 6575, 6595, 6613, 6634, 6636, 6659, 6705, 6714, 
+6717, 6741, 6751, 6765, 6792, 6800, 6807, 6810, 6841, 6844, 6846, 6858, 6969, 6983, 7041, 7437, 7594, 7826, 7837, 8094, 8793, 8855, 9438, 9579, 
+9615, 9627, 9662, 9742, 9770, 9926, 9962, 10287, 63, 771, 2748, 4760, 4859, 5030, 6330, 6471, 6767, 6785, 1221, 4035, 4803, 5023, 5040, 5221, 435, 4355);
+
+/*Domicílios com nº de veículos diferente de nº de emplacados com resposta apenas em C02.2*/
+update pmad2018.dp_dom_1718
+set C022 = C011+C012+C013+C014+C015+C016+C019
+where A01nficha in (37, 49, 50, 98, 446, 733, 803, 1106, 1151, 1165, 1192, 1239, 1348, 1491, 1635, 1659, 1685, 1688, 1690, 1732, 1735, 
+1782, 1811, 1813, 1827, 1833, 1903, 1909, 1932, 2001, 2002, 2046, 2097, 2156, 2158, 2162, 2166, 2167, 2227, 2229, 
+2313, 2315, 2320, 2335, 2344, 2382, 2392, 2487, 2489, 2503, 2512, 2757, 3128, 3174, 3208, 3271, 3340, 3491, 3647, 
+3699, 3706, 3722, 3771, 3852, 3938, 3968, 4147, 4177, 4226, 4332, 4364, 4522, 4728, 4770, 4849, 4881, 4943, 4988, 
+5335, 5605, 5629, 5648, 5689, 5822, 5931, 5964, 6064, 6127, 6172, 6189, 6198, 6299, 6321, 6332, 6341, 6362, 6377, 
+6391, 6420, 6452, 6558, 6601, 6683, 6726, 6753, 6762, 6782, 6828, 6832, 6890, 6926, 6942, 6949, 7008, 7014, 7025, 
+7126, 7160, 7168, 7208, 7221, 7234, 7275, 7309, 7318, 7386, 7425, 7441, 7450, 7454, 7459, 7479, 7480, 7481, 7525, 
+7542, 7590, 8127, 8230, 8658, 8667, 8672, 8874, 9137, 9203, 9244, 9257, 9342, 9347, 9351, 9358, 9368, 9496, 9521, 
+9576, 9599, 9637, 9658, 9690, 9720, 9721, 9724, 9760, 9786, 9791, 9801, 9895, 9909, 9915, 9925, 9973, 10049, 10096, 
+10149, 10439, 10562, 294, 376, 858, 1179, 1840, 2011, 3672, 4979, 6065, 6797, 8816, 9035, 9407, 9452, 9461, 10236, 10253, 2042);
+
+/*Domicílio com mais veículos do que placas informadas*/
+update pmad2018.dp_dom_1718
+set C021 = (C011+C012+C013+C014+C015+C016+C019)-(C021+C022+C023) + C021
+where A01nficha in (2553, 7613, 2384, 7013, 9575, 9894, 1008, 1965, 3506, 6814, 10353, 2937, 4884);
+
+/*Domicílios com nº de veículos diferente de nº de emplacados com resposta apenas em C02.3*/
+update pmad2018.dp_dom_1718
+set C023 = C011+C012+C013+C014+C015+C016+C019
+where A01nficha in (1126, 1416, 1532, 1739, 2342, 2762, 2878, 3004, 3892, 4060, 4239, 5049, 6199, 6245, 6249, 7043);
+
+/*Domicílio com mais veículos do que placas informadas*/
+update pmad2018.dp_dom_1718 set C022= 3 where A01nficha = 7167;
+
+update pmad2018.dp_dom_1718 set C022= 2 where A01nficha = 3786;
+
+
+/*Domicílio com mais veículos do que placas informadas*/
+update pmad2018.dp_dom_1718
+set C022=0
+where A01nficha in (5358, 6108, 6217, 435);
+
+/*Domicílio com mensalista sem identificação de mensalista em moradores*/
+update pmad2018.dp_dom_1718
+set C051=0
+where A01nficha in (1147, 1746, 2293, 4513, 5030, 5130, 5429, 8391, 8862, 8995, 9088, 9154);
+
+/*Domicílio sem mensalista com identificação de mensalista em moradores*/
+update pmad2018.dp_dom_1718
+set C051=1
+where A01nficha in (1563, 1677, 1726, 1773, 3895, 4203, 5366, 5784, 6561, 6924, 9356, 8113);
+
