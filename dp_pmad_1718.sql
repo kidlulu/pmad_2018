@@ -44,7 +44,7 @@ select
   end as A01setor,
   d1.CD_SEQ_DOM as A01nficha_ant,
   cast(d1.SETOR_CENSITÁRIO as bigint) as setorcensitario, 
-  d1.QT_DOM_MORADORES as A01nPessoas,
+  d1.QT_DOM_MORADORES as A01npessoas,
   convert(date,CONCAT(
   ltrim(rtrim(cast(day(DT_DOM_ANO) as varchar(2)))),'/', 
   ltrim(rtrim(cast(month(DT_DOM_ANO) as varchar(2)))),'/', 
@@ -190,7 +190,7 @@ from pmad2018.dom2017 d1;
 /*Passo 02 - Inserção dos dados da PMAD 2018 no arquivo temporário criado para a adequação da PMAD 2017 à PMAD 2018 DOMICÍLIOS*/
 insert into pmad2018.tmp
 select 
- 2018 as referencia, 
+ cast(SUBSTRING(datavisita,1,4) as int) as referencia, 
  FATOR_MUN, 
  case when ltrim(rtrim(municipio)) = 'Planaltina' then  cast('Planaltina' as varchar(27))
       when ltrim(rtrim(municipio)) = 'Aguas Lindas de Goias' then cast('Águas Lindas de Goiás' as varchar(27))
@@ -202,7 +202,7 @@ select
  cast(A01setor as varchar(39)) as A01setor, 
  A01nficha as A01nficha_ant, 
  cast(setorcensitario as bigint) as setorcensitario, 
- A01nPessoas, 
+ A01nPessoas as A01npessoas, 
  CONVERT(date,CONCAT(SUBSTRING(datavisita,9,2),'/',
                      SUBSTRING(datavisita,6,2),'/',
                      SUBSTRING(datavisita,1,4)),103) as datavisita, 
@@ -214,13 +214,19 @@ select
  C08, C09, C101, C102, C103, C104 
 from pmad2018.dom2018;
 
+/*Se o domicílio possuir qualquer item que não seja fogão e/ou geladeira, ele recebe 1 fogão e 1 geladeira*/
+update pmad2018.tmp set C0404=1 where C0401+C0402+C0403+C0405+C0406+C0407+C0408+C0409+C0410+C0411+C0412+C0413+C0414+C0415+C0416+C0417+C0418+C0419+C0420+C0421+C0422+C051+C052+C053+C031+C032+C033+C034+C011+C012+C013+C014+C015+C016+C017+C018+C019 between 1 and 77776 and C0404 = 0;
+
+update pmad2018.tmp set C0408=1 where C0401+C0402+C0403+C0404+C0405+C0406+C0407+C0409+C0410+C0411+C0412+C0413+C0414+C0415+C0416+C0417+C0418+C0419+C0420+C0421+C0422+C051+C052+C053+C031+C032+C033+C034+C011+C012+C013+C014+C015+C016+C017+C018+C019 between 1 and 77776 and C0408 = 0 
+
+
 /*Passo 03 - Criação da tabela final de DOMICÍLIOS*/
 
 IF OBJECT_ID('pmad2018.dp_dom_1718', 'U') IS NOT NULL DROP TABLE pmad2018.dp_dom_1718; 
 
 select
-referencia, FATOR_MUN, municipio, A01setor, A01nficha_ant, ROW_NUMBER() OVER(ORDER BY municipio, A01setor, A01nficha_ant) AS A01nficha, 
-setorcensitario, A01nPessoas, datavisita, B01, B02, B03, B04, B05, B06, B07, B08, B09, B10, B11, B12, B13, B14, B15, B16, B17, B18, 
+year(datavisita) as referencia, FATOR_MUN, municipio, A01setor, A01nficha_ant, ROW_NUMBER() OVER(ORDER BY municipio, A01setor, A01nficha_ant) AS A01nficha, 
+setorcensitario, A01npessoas, datavisita, B01, B02, B03, B04, B05, B06, B07, B08, B09, B10, B11, B12, B13, B14, B15, B16, B17, B18, 
 B191, B192, B193, B194, B195, B201, B202, B203, B204, B205, B206, B211, B212, B213, B214, B215, B216, B217, B218, B22, B231, B232, 
 B233, B234, C011, C012, C013, C014, C015, C016, C017, C018, C019, C021, C022, C023, C031, C032, C033, C034, C0401, C0402, C0403, 
 C0404, C0405, C0406, C0407, C0408, C0409, C0410, C0411, C0412, C0413, C0414, C0415, C0416, C0417, C0418, C0419, C0420, C0421, C0422, 
@@ -270,7 +276,7 @@ select
        else null
   end as A01setor,
   m1.CD_SEQ_DOM as A01nficha_ant,
-  m1.QT_DOM_MORADORES as A01nPessoas,
+  m1.QT_DOM_MORADORES as A01npessoas,
   m1.TP_MOR_COND_UNID as D02,
   case when m1.TP_MOR_RESPON_COMPARTILHADA = 9 then 99 else m1.TP_MOR_RESPON_COMPARTILHADA end as D06,
   m1.TP_MOR_SEXO as D03,
@@ -350,30 +356,496 @@ select
        when ltrim(rtrim(municipio)) = 'Cocalzinho de Goias' then cast('Cocalzinho de Goiás' as varchar(27))
        else null 
   end as municipio, 
-  A01setor, A01nficha as A01nficha_ant, A01nPessoas, D02, D06, D03, D04, D05, D07, D08, D09, D10, D11, D12, D13, D14, D15, D16, 
+  A01setor, A01nficha as A01nficha_ant, A01npessoas, D02, D06, D03, D04, D05, D07, D08, D09, D10, D11, D12, D13, D14, D15, D16, 
   D17, D18, D19, D20, D21, D22, 
   case when E01 = 8 then 88 else E01 end as E01, E02, E03, E04, E05, E06, E07, E08, E09, E10, E11, E12, E13, E14, E15
 from pmad2018.mora2018;
 
-/*Passo 06 - Criação da tabela final de MORADORES*/
 
-IF OBJECT_ID('pmad2018.dp_mor_1718', 'U') IS NOT NULL DROP TABLE pmad2018.dp_mor_1718; 
+/*Passo 06 - Criação de uma tabela intermediária de MORADORES para correção de idade e posição na ocupação*/
+/*Aqui foi implementado a contagem correta do número de pessoas*/
+
+IF OBJECT_ID('pmad2018.tmp2', 'U') IS NOT NULL DROP TABLE pmad2018.tmp2; 
 
 select
-t1.referencia, t1.municipio, t1.A01setor, t1.A01nficha_ant, t2.A01nficha, t1.A01nPessoas, 
+year(t2.datavisita) as referencia, t1.municipio, t1.A01setor, t1.A01nficha_ant, t2.A01nficha, t1.A01npessoas, 
 ROW_NUMBER() OVER(ORDER BY t1.municipio, t1.A01setor, t2.A01nficha, t1.D05) AS D01,
-t1.D02, t1.D06, t1.D03, t1.D04, t1.D05, t1.D07, t1.D08, t1.D09, t1.D10, t1.D11, t1.D12, t1.D13, 
+t1.D02, t1.D06, t1.D03, t1.D04, t1.D05, t1.D07, t1.D08, t1.D09, t1.D10, t1.D11, 
+t1.D12, t1.D13, 
 t1.D14, t1.D15, t1.D16, t1.D17, t1.D18, t1.D19, t1.D20, t1.D21, t1.D22, 
 t1.E01, t1.E02, t1.E03, t1.E04, t1.E05, t1.E06, t1.E07, t1.E08, t1.E09, 
 t1.E10, t1.E11, t1.E12, t1.E13, t1.E14, t1.E15
-into pmad2018.dp_mor_1718
+into pmad2018.tmp2
 from pmad2018.tmp t1,
      pmad2018.dp_dom_1718 t2
 where t1.municipio = t2.municipio
 and t1.A01setor = t2.A01setor
 and t1.A01nficha_ant = t2.A01nficha_ant;
 
+ /*Alteração de idades com problemas*/
+update pmad2018.tmp2 set D05 = 77 where A01nficha = 1035 and D01 = 3391;
+
+update pmad2018.tmp2 set D05 = 31 where A01nficha = 1136 and D01 = 3711;
+
+update pmad2018.tmp2 set D05 = 39 where A01nficha = 1157 and D01 = 3779;
+
+update pmad2018.tmp2 set D05 = 48 where A01nficha = 1167 and D01 = 3811;
+
+update pmad2018.tmp2 set D05 = 47 where A01nficha = 1226 and D01 = 3997;
+
+update pmad2018.tmp2 set D05 = 24 where A01nficha = 1280 and D01 = 4183;
+
+update pmad2018.tmp2 set D05 = 21 where A01nficha = 1347 and D01 = 4397;
+
+update pmad2018.tmp2 set D05 = 9 where A01nficha = 1400 and D01 = 4529;
+
+update pmad2018.tmp2 set D05 = 30 where A01nficha = 1489 and D01 = 4834;
+
+update pmad2018.tmp2 set D05 = 46 where A01nficha = 1493 and D01 = 4851;
+
+update pmad2018.tmp2 set D05 = 85 where A01nficha = 1530 and D01 = 4984;
+
+update pmad2018.tmp2 set D05 = 35 where A01nficha = 1547 and D01 = 5032;
+
+update pmad2018.tmp2 set D05 = 37 where A01nficha = 1561 and D01 = 5074;
+
+update pmad2018.tmp2 set D05 = 44 where A01nficha = 1590 and D01 = 5177;
+
+update pmad2018.tmp2 set D05 = 46 where A01nficha = 1637 and D01 = 5313;
+
+update pmad2018.tmp2 set D05 = 9 where A01nficha = 1725 and D01 = 5626;
+
+update pmad2018.tmp2 set D05 = 32 where A01nficha = 1795 and D01 = 5850;
+
+update pmad2018.tmp2 set D05 = 51 where A01nficha = 1847 and D01 = 6041;
+
+update pmad2018.tmp2 set D05 = 31 where A01nficha = 1862 and D01 = 6093;
+
+update pmad2018.tmp2 set D05 = 48 where A01nficha = 1890 and D01 = 6203;
+
+update pmad2018.tmp2 set D05 = 30 where A01nficha = 2124 and D01 = 7066;
+
+update pmad2018.tmp2 set D05 = 25 where A01nficha = 2184 and D01 = 7261;
+
+update pmad2018.tmp2 set D05 = 9 where A01nficha = 3710 and D01 = 12019;
+
+update pmad2018.tmp2 set D05 = 9 where A01nficha = 3761 and D01 = 12181;
+
+update pmad2018.tmp2 set D05 = 69 where A01nficha = 3767 and D01 = 12207;
+
+update pmad2018.tmp2 set D05 = 10 where A01nficha = 3858 and D01 = 12509;
+
+update pmad2018.tmp2 set D05 = 30 where A01nficha = 3874 and D01 = 12558;
+
+update pmad2018.tmp2 set D05 = 66 where A01nficha = 3884 and D01 = 12591;
+
+update pmad2018.tmp2 set D05 = 40 where A01nficha = 3963 and D01 = 12869;
+
+update pmad2018.tmp2 set D05 = 50 where A01nficha = 4035 and D01 = 13096;
+
+update pmad2018.tmp2 set D05 = 74 where A01nficha = 4155 and D01 = 13507;
+
+update pmad2018.tmp2 set D05 = 38 where A01nficha = 4271 and D01 = 13886;
+
+update pmad2018.tmp2 set D05 = 23 where A01nficha = 4489 and D01 = 14613;
+
+update pmad2018.tmp2 set D05 = 40 where A01nficha = 4518 and D01 = 14713;
+
+update pmad2018.tmp2 set D05 = 46 where A01nficha = 4613 and D01 = 15072;
+
+update pmad2018.tmp2 set D05 = 8 where A01nficha = 4888 and D01 = 15936;
+
+update pmad2018.tmp2 set D05 = 31 where A01nficha = 4980 and D01 = 16236;
+
+update pmad2018.tmp2 set D05 = 41 where A01nficha = 5221 and D01 = 17039;
+
+update pmad2018.tmp2 set D05 = 62 where A01nficha = 5233 and D01 = 17077;
+
+update pmad2018.tmp2 set D05 = 53 where A01nficha = 5379 and D01 = 17563;
+
+update pmad2018.tmp2 set D05 = 66 where A01nficha = 5506 and D01 = 17913;
+
+update pmad2018.tmp2 set D05 = 63 where A01nficha = 5508 and D01 = 17919;
+
+update pmad2018.tmp2 set D05 = 52 where A01nficha = 5675 and D01 = 18508;
+
+update pmad2018.tmp2 set D05 = 36 where A01nficha = 5694 and D01 = 18558;
+
+update pmad2018.tmp2 set D05 = 41 where A01nficha = 5737 and D01 = 18686;
+
+update pmad2018.tmp2 set D05 = 72 where A01nficha = 6135 and D01 = 19979;
+
+update pmad2018.tmp2 set D05 = 38 where A01nficha = 6148 and D01 = 20018;
+
+update pmad2018.tmp2 set D05 = 58 where A01nficha = 6242 and D01 = 20268;
+
+update pmad2018.tmp2 set D05 = 43 where A01nficha = 6281 and D01 = 20392;
+
+update pmad2018.tmp2 set D05 = 44 where A01nficha = 6523 and D01 = 21074;
+
+update pmad2018.tmp2 set D05 = 28 where A01nficha = 6570 and D01 = 21287;
+
+update pmad2018.tmp2 set D05 = 32 where A01nficha = 6602 and D01 = 21455;
+
+update pmad2018.tmp2 set D05 = 38 where A01nficha = 6758 and D01 = 21988;
+
+update pmad2018.tmp2 set D05 = 41 where A01nficha = 6821 and D01 = 22191;
+
+update pmad2018.tmp2 set D05 = 9 where A01nficha = 6901 and D01 = 22431;
+
+update pmad2018.tmp2 set D05 = 28 where A01nficha = 7070 and D01 = 22948;
+
+update pmad2018.tmp2 set D05 = 8 where A01nficha = 7243 and D01 = 23530;
+
+update pmad2018.tmp2 set D05 = 9 where A01nficha = 7278 and D01 = 23646;
+
+update pmad2018.tmp2 set D05 = 8 where A01nficha = 7297 and D01 = 23704;
+
+update pmad2018.tmp2 set D05 = 34 where A01nficha = 7354 and D01 = 23881;
+
+update pmad2018.tmp2 set D05 = 8 where A01nficha = 7369 and D01 = 23924;
+
+update pmad2018.tmp2 set D05 = 22 where A01nficha = 7403 and D01 = 24043;
+
+update pmad2018.tmp2 set D05 = 53 where A01nficha = 7514 and D01 = 24421;
+
+update pmad2018.tmp2 set D05 = 33 where A01nficha = 7569 and D01 = 24615;
+
+update pmad2018.tmp2 set D05 = 19 where A01nficha = 7584 and D01 = 24677;
+
+update pmad2018.tmp2 set D05 = 51 where A01nficha = 7600 and D01 = 24717;
+
+update pmad2018.tmp2 set D05 = 36 where A01nficha = 9426 and D01 = 30501;
+
+update pmad2018.tmp2 set D05 = 64 where A01nficha = 9498 and D01 = 30741;
+
+update pmad2018.tmp2 set D05 = 35 where A01nficha = 9613 and D01 = 31073;
+
+update pmad2018.tmp2 set D05 = 35 where A01nficha = 9724 and D01 = 31430;
+
+update pmad2018.tmp2 set D05 = 27 where A01nficha = 9741 and D01 = 31487;
+
+update pmad2018.tmp2 set D05 = 35 where A01nficha = 9781 and D01 = 31630;
+
+update pmad2018.tmp2 set D05 = 9 where A01nficha = 9788 and D01 = 31651;
+
+update pmad2018.tmp2 set D05 = 53 where A01nficha = 9834 and D01 = 31770;
+
+update pmad2018.tmp2 set D05 = 26 where A01nficha = 9860 and D01 = 31833;
+
+update pmad2018.tmp2 set D05 = 51 where A01nficha = 9899 and D01 = 31969;
+
+update pmad2018.tmp2 set D05 = 34 where A01nficha = 9931 and D01 = 32070;
+
+update pmad2018.tmp2 set D05 = 49 where A01nficha = 9977 and D01 = 32252;
+
+update pmad2018.tmp2 set D05 = 73 where A01nficha = 9979 and D01 = 32254;
+
+update pmad2018.tmp2 set D05 = 30 where A01nficha = 1282 and D01 = 4191;
+
+update pmad2018.tmp2 set D05 = 29 where A01nficha = 1282 and D01 = 4192;
+
+update pmad2018.tmp2 set D05 = 42 where A01nficha = 1467 and D01 = 4755;
+
+update pmad2018.tmp2 set D05 = 40 where A01nficha = 1467 and D01 = 4756;
+
+update pmad2018.tmp2 set D05 = 38 where A01nficha = 1467 and D01 = 4757;
+
+update pmad2018.tmp2 set D05 = 44 where A01nficha = 1491 and D01 = 4840;
+
+update pmad2018.tmp2 set D05 = 45 where A01nficha = 1491 and D01 = 4841;
+
+update pmad2018.tmp2 set D05 = 36 where A01nficha = 1648 and D01 = 5353;
+
+update pmad2018.tmp2 set D05 = 37 where A01nficha = 1648 and D01 = 5354;
+
+update pmad2018.tmp2 set D05 = 25 where A01nficha = 1951 and D01 = 6462;
+
+update pmad2018.tmp2 set D05 = 24 where A01nficha = 1951 and D01 = 6463;
+
+update pmad2018.tmp2 set D05 = 23 where A01nficha = 1951 and D01 = 6464;
+
+update pmad2018.tmp2 set D05 = 37 where A01nficha = 1955 and D01 = 6481;
+
+update pmad2018.tmp2 set D05 = 36 where A01nficha = 1955 and D01 = 6482;
+
+update pmad2018.tmp2 set D05 = 42 where A01nficha = 2031 and D01 = 6745;
+
+update pmad2018.tmp2 set D05 = 46 where A01nficha = 2031 and D01 = 6746;
+
+update pmad2018.tmp2 set D05 = 40 where A01nficha = 2031 and D01 = 6747;
+
+update pmad2018.tmp2 set D05 = 9 where A01nficha = 2063 and D01 = 6864;
+
+update pmad2018.tmp2 set D05 = 24 where A01nficha = 2063 and D01 = 6865;
+
+update pmad2018.tmp2 set D05 = 22 where A01nficha = 2213 and D01 = 7375;
+
+update pmad2018.tmp2 set D05 = 8 where A01nficha = 2213 and D01 = 7376;
+
+update pmad2018.tmp2 set D05 = 55 where A01nficha = 2256 and D01 = 7545;
+
+update pmad2018.tmp2 set D05 = 53 where A01nficha = 2256 and D01 = 7546;
+
+update pmad2018.tmp2 set D05 = 30 where A01nficha = 2552 and D01 = 8497;
+
+update pmad2018.tmp2 set D05 = 26 where A01nficha = 2552 and D01 = 8498;
+
+update pmad2018.tmp2 set D05 = 24 where A01nficha = 2552 and D01 = 8499;
+
+update pmad2018.tmp2 set D05 = 42 where A01nficha = 3869 and D01 = 12540;
+
+update pmad2018.tmp2 set D05 = 43 where A01nficha = 3869 and D01 = 12541;
+
+update pmad2018.tmp2 set D05 = 58 where A01nficha = 4345 and D01 = 14134;
+
+update pmad2018.tmp2 set D05 = 32 where A01nficha = 4345 and D01 = 14135;
+
+update pmad2018.tmp2 set D05 = 39 where A01nficha = 4345 and D01 = 14136;
+
+update pmad2018.tmp2 set D05 = 42 where A01nficha = 4345 and D01 = 14137;
+
+update pmad2018.tmp2 set D05 = 24 where A01nficha = 4623 and D01 = 15104;
+
+update pmad2018.tmp2 set D05 = 26 where A01nficha = 4623 and D01 = 15105;
+
+update pmad2018.tmp2 set D05 = 40 where A01nficha = 4934 and D01 = 16081;
+
+update pmad2018.tmp2 set D05 = 39 where A01nficha = 4934 and D01 = 16082;
+
+update pmad2018.tmp2 set D05 = 3 where A01nficha = 4934 and D01 = 16083;
+
+update pmad2018.tmp2 set D05 = 17 where A01nficha = 4934 and D01 = 16084;
+
+update pmad2018.tmp2 set D05 = 44 where A01nficha = 4984 and D01 = 16245;
+
+update pmad2018.tmp2 set D05 = 40 where A01nficha = 4984 and D01 = 16246;
+
+update pmad2018.tmp2 set D05 = 32 where A01nficha = 5202 and D01 = 16971;
+
+update pmad2018.tmp2 set D05 = 26 where A01nficha = 5202 and D01 = 16972;
+
+update pmad2018.tmp2 set D05 = 39 where A01nficha = 5352 and D01 = 17461;
+
+update pmad2018.tmp2 set D05 = 40 where A01nficha = 5352 and D01 = 17462;
+
+update pmad2018.tmp2 set D05 = 33 where A01nficha = 5381 and D01 = 17568;
+
+update pmad2018.tmp2 set D05 = 31 where A01nficha = 5381 and D01 = 17569;
+
+update pmad2018.tmp2 set D05 = 29 where A01nficha = 5381 and D01 = 17570;
+
+update pmad2018.tmp2 set D05 = 27 where A01nficha = 5381 and D01 = 17571;
+
+update pmad2018.tmp2 set D05 = 35 where A01nficha = 5381 and D01 = 17572;
+
+update pmad2018.tmp2 set D05 = 37 where A01nficha = 5381 and D01 = 17573;
+
+update pmad2018.tmp2 set D05 = 39 where A01nficha = 5381 and D01 = 17574;
+
+update pmad2018.tmp2 set D05 = 36 where A01nficha = 5604 and D01 = 18278;
+
+update pmad2018.tmp2 set D05 = 1 where A01nficha = 5604 and D01 = 18279;
+
+update pmad2018.tmp2 set D05 = 17 where A01nficha = 5604 and D01 = 18280;
+
+update pmad2018.tmp2 set D05 = 4 where A01nficha = 5604 and D01 = 18281;
+
+update pmad2018.tmp2 set D05 = 45 where A01nficha = 5804 and D01 = 18924;
+
+update pmad2018.tmp2 set D05 = 44 where A01nficha = 5804 and D01 = 18925;
+
+update pmad2018.tmp2 set D05 = 27 where A01nficha = 5814 and D01 = 18954;
+
+update pmad2018.tmp2 set D05 = 23 where A01nficha = 5814 and D01 = 18955;
+
+update pmad2018.tmp2 set D05 = 15 where A01nficha = 5814 and D01 = 18956;
+
+update pmad2018.tmp2 set D05 = 28 where A01nficha = 5815 and D01 = 18959;
+
+update pmad2018.tmp2 set D05 = 26 where A01nficha = 5815 and D01 = 18960;
+
+update pmad2018.tmp2 set D05 = 24 where A01nficha = 5815 and D01 = 18961;
+
+update pmad2018.tmp2 set D05 = 60 where A01nficha = 6332 and D01 = 20518;
+
+update pmad2018.tmp2 set D05 = 59 where A01nficha = 6332 and D01 = 20519;
+
+update pmad2018.tmp2 set D05 = 39 where A01nficha = 6387 and D01 = 20659;
+
+update pmad2018.tmp2 set D05 = 40 where A01nficha = 6387 and D01 = 20660;
+
+update pmad2018.tmp2 set D05 = 28 where A01nficha = 6808 and D01 = 22145;
+
+update pmad2018.tmp2 set D05 = 27 where A01nficha = 6808 and D01 = 22146;
+
+update pmad2018.tmp2 set D05 = 7 where A01nficha = 6808 and D01 = 22147;
+
+update pmad2018.tmp2 set D05 = 6 where A01nficha = 6808 and D01 = 22148;
+
+update pmad2018.tmp2 set D05 = 56 where A01nficha = 6823 and D01 = 22196;
+
+update pmad2018.tmp2 set D05 = 68 where A01nficha = 6823 and D01 = 22197;
+
+update pmad2018.tmp2 set D05 = 9 where A01nficha = 6886 and D01 = 22384;
+
+update pmad2018.tmp2 set D05 = 10 where A01nficha = 6886 and D01 = 22385;
+
+update pmad2018.tmp2 set D05 = 11 where A01nficha = 6886 and D01 = 22386;
+
+update pmad2018.tmp2 set D05 = 65 where A01nficha = 7054 and D01 = 22898;
+
+update pmad2018.tmp2 set D05 = 66 where A01nficha = 7054 and D01 = 22899;
+
+update pmad2018.tmp2 set D05 = 47 where A01nficha = 7152 and D01 = 23208;
+
+update pmad2018.tmp2 set D05 = 46 where A01nficha = 7152 and D01 = 23209;
+
+update pmad2018.tmp2 set D05 = 26 where A01nficha = 7229 and D01 = 23479;
+
+update pmad2018.tmp2 set D05 = 30 where A01nficha = 7229 and D01 = 23480;
+
+update pmad2018.tmp2 set D05 = 50 where A01nficha = 7229 and D01 = 23481;
+
+update pmad2018.tmp2 set D05 = 49 where A01nficha = 7229 and D01 = 23482;
+
+update pmad2018.tmp2 set D05 = 40 where A01nficha = 7452 and D01 = 24201;
+
+update pmad2018.tmp2 set D05 = 39 where A01nficha = 7452 and D01 = 24202;
+
+update pmad2018.tmp2 set D05 = 15 where A01nficha = 7452 and D01 = 24203;
+
+update pmad2018.tmp2 set D05 = 38 where A01nficha = 7483 and D01 = 24311;
+
+update pmad2018.tmp2 set D05 = 41 where A01nficha = 7483 and D01 = 24312;
+
+update pmad2018.tmp2 set D05 = 7 where A01nficha = 7545 and D01 = 24543;
+
+update pmad2018.tmp2 set D05 = 6 where A01nficha = 7545 and D01 = 24544;
+
+update pmad2018.tmp2 set D05 = 22 where A01nficha = 7545 and D01 = 24545;
+
+update pmad2018.tmp2 set D05 = 38 where A01nficha = 9357 and D01 = 30255;
+
+update pmad2018.tmp2 set D05 = 37 where A01nficha = 9357 and D01 = 30256;
+
+update pmad2018.tmp2 set D05 = 43 where A01nficha = 9393 and D01 = 30368;
+
+update pmad2018.tmp2 set D05 = 41 where A01nficha = 9393 and D01 = 30369;
+
+/*Pessoas com marcação de filho mas com idade acima do Responsável pelo Domicílio receberão marcação: Outro parente*/
+update pmad2018.tmp2 set D02=6 where A01nficha = 38 and D01 = 122;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 1010 and D01 = 3334;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 1010 and D01 = 3335;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 1257 and D01 = 4101;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 1277 and D01 = 4171;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 1379 and D01 = 4484;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 1466 and D01 = 4747;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 1481 and D01 = 4805;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 1481 and D01 = 4806;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 1521 and D01 = 4947;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 2001 and D01 = 6639;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 2019 and D01 = 6704;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 2057 and D01 = 6843;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 2057 and D01 = 6844;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 2057 and D01 = 6845;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 2073 and D01 = 6900;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 2081 and D01 = 6921;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 2086 and D01 = 6939;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 2090 and D01 = 6953;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 2099 and D01 = 6978;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 2282 and D01 = 7631;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 2300 and D01 = 7683;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 2895 and D01 = 9530;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 3336 and D01 = 10847;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 4803 and D01 = 15677;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 4803 and D01 = 15678;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 5051 and D01 = 16452;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 5139 and D01 = 16752;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 5142 and D01 = 16762;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 5393 and D01 = 17600;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 5509 and D01 = 17923;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 5965 and D01 = 19450;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 6177 and D01 = 20099;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 6328 and D01 = 20508;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 6626 and D01 = 21562;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 6657 and D01 = 21688;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 7273 and D01 = 23626;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 9126 and D01 = 29469;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 9249 and D01 = 29875;
+
+update pmad2018.tmp2 set D02=6 where A01nficha = 9657 and D01 = 31220;
+
+/*Para pessoas que não são naturais de Goiás ou Não Sabem devem ter Nâo sabem em Por que veio*/
+update pmad2018.tmp2 set D14 = 88 where D10 in (1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28) and D14 = 99 
+
+/*Para pessoas que não são naturais de Goiás ou Não Sabem devem ter Nâo sabem em Por que veio*/
+update pmad2018.tmp2 set D12 = 8888 where D10 in (1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28) and D12 = 9999 
+
+/*Para pessoas que não são naturais de Goiás ou Não Sabem devem ter Nâo sabem em Por que veio*/
+update pmad2018.tmp2 set D11 = 99, D12 = 9999, D13 = 99, D14 = 99 where D10 in (9,88) 
+
+/*Passo 06 - Criação da tabela final de MORADORES*/
+/*Aqui foi implementado a correção da D12*/
+
+IF OBJECT_ID('pmad2018.dp_mor_1718', 'U') IS NOT NULL DROP TABLE pmad2018.dp_mor_1718; 
+
+select
+t1.referencia, t1.municipio, t1.A01setor, t1.A01nficha_ant, t1.A01nficha, t1.A01npessoas, 
+ROW_NUMBER() OVER(ORDER BY t1.municipio, t1.A01setor, t1.A01nficha_ant, t1.D05) AS D01,
+t1.D02, t1.D06, t1.D03, case when t1.D04 = 8 then 88 else t1.D04 end as D04, t1.D05, 
+case when t1.D07 = 8 then 88 else t1.D07 end as D07, t1.D08, t1.D09, t1.D10, t1.D11, 
+case when T1.D12 < 8888 and t1.D05 < t1.referencia - t1.D12 - 1 then t1.referencia - t1.D05 - 1 else t1.D12 end as D12, t1.D13, 
+t1.D14, t1.D15, t1.D16, t1.D17, t1.D18, t1.D19, t1.D20, t1.D21, t1.D22, 
+t1.E01, t1.E02, t1.E03, t1.E04, t1.E05, t1.E06, t1.E07, t1.E08, t1.E09, 
+t1.E10, t1.E11, t1.E12, t1.E13, t1.E14, t1.E15
+into pmad2018.dp_mor_1718
+from pmad2018.tmp2 t1;
+
+/*Para pessoas que não são naturais de Goiás ou Não Sabem devem ter Nâo sabem em Por que veio*/
+update pmad2018.dp_mor_1718 set D11 = 99, D12 = 9999, D13 = 99, D14 = 99 where D10 in (9,88) 
+
 IF OBJECT_ID('pmad2018.tmp', 'U') IS NOT NULL DROP TABLE pmad2018.tmp; 
+
+IF OBJECT_ID('pmad2018.tmp2', 'U') IS NOT NULL DROP TABLE pmad2018.tmp2; 
 
 /*Passo 07 - Atribuição de nome correto à alguns setores que não estavam aparecendo de forma correta*/
 
@@ -593,11 +1065,11 @@ update pmad2018.dp_mor_1718 set D07 = 1 where A01nficha = 4635 and D05 = 19;
 /*Exclusões feitas na 6876 e 9896 por não ter morador na base de morador.*/
 /*Exclusão feita na 4733 por ausência de responsável pelo domicílio.*/
 delete from pmad2018.dp_dom_1718 
-where A01nficha in (6876,9896,4733);
+where A01nficha in (6876,9896,4733,4778,1490,4259,9752);
 
 /*Exclusão de domicílio com pessoas sem */
 delete from pmad2018.dp_mor_1718
-where A01nficha in (6876,9896,4733);
+where A01nficha in (6876,9896,4733,4778,1490,4259,9752);
 
 /*Passo 11 - Correções na tabela de DOMICÍLIOS*/
 
@@ -682,86 +1154,14 @@ where A01nficha in (1563, 1677, 1726, 1773, 3895, 4203, 5366, 5784, 6561, 6924, 
 
 /*Passo 12 - Correções na tabela de MORADORES*/
 
-/*Pessoas com marcação de filho mas com idade acima do Responsável pelo Domicílio receberão marcação: Outro parente*/
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 38 and D01 = 122;
+/*Estado Civil aplica-se apenas para pessoas com 14 ou mais*/
+update pmad2018.dp_mor_1718 set D07 = 99 where D05 < 14;
 
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 1010 and D01 = 3334;
+/*Dados sobre violência aplica-se apenas para pessoas com 16 ou mais*/
+update pmad2018.dp_mor_1718 set D20 = 99, D21 = 99, D22 = 99 where D05 < 16;
 
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 1010 and D01 = 3335;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 1257 and D01 = 4101;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 1277 and D01 = 4171;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 1379 and D01 = 4484;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 1466 and D01 = 4747;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 1481 and D01 = 4805;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 1481 and D01 = 4806;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 1521 and D01 = 4947;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 2001 and D01 = 6639;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 2019 and D01 = 6704;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 2057 and D01 = 6843;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 2057 and D01 = 6844;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 2057 and D01 = 6845;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 2073 and D01 = 6900;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 2081 and D01 = 6921;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 2086 and D01 = 6939;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 2090 and D01 = 6953;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 2099 and D01 = 6978;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 2282 and D01 = 7631;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 2300 and D01 = 7683;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 2895 and D01 = 9530;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 3336 and D01 = 10847;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 4803 and D01 = 15677;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 4803 and D01 = 15678;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 5051 and D01 = 16452;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 5139 and D01 = 16752;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 5142 and D01 = 16762;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 5393 and D01 = 17600;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 5509 and D01 = 17923;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 5965 and D01 = 19450;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 6177 and D01 = 20099;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 6328 and D01 = 20508;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 6626 and D01 = 21562;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 6657 and D01 = 21688;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 7273 and D01 = 23626;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 9126 and D01 = 29469;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 9249 and D01 = 29875;
-
-update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 9657 and D01 = 31220;
+/*Dados sobre violência aplica-se apenas para pessoas com 16 ou mais*/
+update pmad2018.dp_mor_1718 set E06 = 99, E07 = 99, E08 = 99, E09 = 99, E10 = 99, E11 = 99, E12 = 99999, E13 = 99999, E14 = 99, E15 = 99 where D05 < 10;
 
 /*Pessoa menor de 14 anos não se aplica*/
 update pmad2018.dp_mor_1718 set D07 = 99 where A01nficha = 	8007 and D01 = 25929;
@@ -842,7 +1242,7 @@ update pmad2018.dp_mor_1718 set E05 = 0 where E05=99;
 update pmad2018.dp_mor_1718 set E05 = 0 where D05 < 16 and E05 between 1 and 4;
 
 /*Pessoa com 10 anos marcadocom aposentado deve receber 0*/
-update pmad2018.dp_mor_1718 set E05 = 0 where A01nficha = 7870 and D01 = 25557;
+update pmad2018.dp_mor_1718 set E06 = 0 where A01nficha = 7870 and D01 = 25557;
 
 /*Adequação de Atividade Pública e Posição na Ocupação*/
 update pmad2018.dp_mor_1718 set E08 = 88 where E07 in (5,6,7,8,18,19) and E08 in (2,6,7,8,9,10,14);
@@ -851,7 +1251,7 @@ update pmad2018.dp_mor_1718 set E08 = 88 where E07 in (5,6,7,8,18,19) and E08 in
 update pmad2018.dp_mor_1718 set E11 = 12 where E09 between 41 and 55 and E11 = 8;
 
 /*Pessoas que trabalham em municípios sem cobertura do metrô mas informaram que vão trabalhar de metrô*/
-update pmad2018.dp_mor_1718 set E06 = 12 where D05 >= 10 and E06 in (0,2,4,5,6,7,88);
+update pmad2018.dp_mor_1718 set E11 = 12 where D05 >= 10 and E09 between 41 and 55 and E11 = 8;
 
 /*Pessoas com trabalho voluntário e o rendimento informado em local indevido*/
 update pmad2018.dp_mor_1718 set E13 = 800 where A01nficha in (8581) and D01 in (27739);
@@ -863,6 +1263,147 @@ update pmad2018.dp_mor_1718 set E07 = 99, E08 = 99, E09 = 99, E10 = 99, E11 = 99
 
 /*Pessoas com marcação de trabalho voluntário devem ter Não se aplica em */
 update pmad2018.dp_mor_1718 set E07 = 99, E08 = 99, E09 = 99, E10 = 99, E11 = 99, E12 = 99999 where E06 = 8;
+
+/*Pessoas com marcação de trabalho voluntário devem ter Não se aplica em */
+update pmad2018.dp_mor_1718 set E12 = 99999 where E06 in (0,2,4,5,6,7,8);
+
+/*Pessoas que nasceram em Goiás recebem 9999 em ano de chegada*/
+update pmad2018.dp_mor_1718 set D12 = 9999 where D10 = 9;
+
+/*Pessoas que não nasceram em em Goiás e não informou ano de chegada preencher com 8888*/
+/*update pmad2018.dp_mor_1718 set D12 = 8888 where D10 <> 9 and D12 = 9999;*/
+
+/*Pessoa que não tem religião não se aplica à frequência religiosa*/
+update pmad2018.dp_mor_1718 set D09 = 99 where D08 = 0;
+
+/*Pessoa que não tem religião não se aplica à frequência religiosa*/
+update pmad2018.dp_mor_1718 set D21 = 99, D22 = 99 where D20 in (0,88);
+
+/*Pessoa que não sabe se estuda responde não se aplica*/
+update pmad2018.dp_mor_1718 set E02 = 99 where E01 = 88;
+
+/*Pessoa que frequentam escola, estão no maternal ou creche mas com idade incompatível*/
+update pmad2018.dp_mor_1718 set E03 = 6 where E01 = 1 and E03 = 5 and D05 in (4,5);
+
+/*Pessoa que frequentam escola e creche mas com idade incompatível*/
+update pmad2018.dp_mor_1718 set E03 = 11, E04 = 88 where E01 = 1 and E03 = 5 and D05 in (6,7);
+
+/*Pessoa que frequentam escola e creche mas com idade incompatível*/
+update pmad2018.dp_mor_1718 set E03 = 5, E04 = 99 where E01 = 1 and E03 = 11 and D05 < 4;
+
+/*Pessoa que frequentam escola e creche mas com idade incompatível*/
+update pmad2018.dp_mor_1718 set E03 = 6, E04 = 99 where E01 = 1 and E03 = 11 and D05 in (4,5);
+
+/*Pessoas com idade abaixo dos 16 anos não contribuem para o INSS*/
+update pmad2018.dp_mor_1718 set E14 = 99 where D05 < 14;
+
+/*Pessoa que não trabalha não contribui para a previdência*/
+update pmad2018.dp_mor_1718 set E14 = 99 where E06 in (0,2);
+
+
+
+
+
+
+
+
+
+
+
+
+ /*Ajustar posição no domicílio por erro de dois chefes ou dois conjuges*/
+update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 4941 and D01 = 16104;
+update pmad2018.dp_mor_1718 set D02=6 where A01nficha = 1477 and D01 = 4791;
+update pmad2018.dp_mor_1718 set D02=4 where A01nficha = 1678 and D01 = 5460;
+update pmad2018.dp_mor_1718 set D02=4 where A01nficha = 4054 and D01 = 13153;
+update pmad2018.dp_mor_1718 set D02=4 where A01nficha = 4515 and D01 = 14698;
+
+ /*Marcar D03 = 1 por incompatibilidade entre posição e sexo da pessoa*/
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 1034 and D01 = 3389;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 1095 and D01 = 3571;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 1298 and D01 = 4247;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 1406 and D01 = 4549;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 1444 and D01 = 4673;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 1455 and D01 = 4710;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 1935 and D01 = 6393;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 1981 and D01 = 6562;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 2046 and D01 = 6803;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 2277 and D01 = 7617;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 2300 and D01 = 7684;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 4207 and D01 = 13691;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 4318 and D01 = 14050;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 4412 and D01 = 14349;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 4689 and D01 = 15320;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 4830 and D01 = 15761;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 4872 and D01 = 15880;
+/*update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 4941 and D01 = 16105;*/
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 5087 and D01 = 16580;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 5205 and D01 = 16982;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 5212 and D01 = 17012;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 6114 and D01 = 19938;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 6266 and D01 = 20343;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 6292 and D01 = 20413;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 6375 and D01 = 20627;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 6423 and D01 = 20759;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 6925 and D01 = 22498;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 7074 and D01 = 22959;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 7297 and D01 = 23703;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 7355 and D01 = 23883;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 7401 and D01 = 24037;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 7441 and D01 = 24164;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 7531 and D01 = 24476;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 9817 and D01 = 31729;
+
+ /*Marcar D03 = 2 por incompatibilidade entre posição e sexo da pessoa*/
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 1063 and D01 = 3487;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 1073 and D01 = 3515;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 1109 and D01 = 3613;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 1236 and D01 = 4035;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 1399 and D01 = 4525;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 1878 and D01 = 6154;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 4000 and D01 = 12982;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 4183 and D01 = 13605;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 4337 and D01 = 14107;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 4656 and D01 = 15210;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 5379 and D01 = 17563;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 5540 and D01 = 18052;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 5584 and D01 = 18198;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 5989 and D01 = 19523;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 6065 and D01 = 19764;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 6503 and D01 = 21008;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 6761 and D01 = 21997;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 6833 and D01 = 22230;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 6949 and D01 = 22573;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 6962 and D01 = 22614;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 6984 and D01 = 22674;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 7023 and D01 = 22800;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 7129 and D01 = 23119;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 7164 and D01 = 23254;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 7289 and D01 = 23681;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 7327 and D01 = 23808;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 7330 and D01 = 23818;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 7357 and D01 = 23887;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 7375 and D01 = 23943;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 7510 and D01 = 24407;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 9440 and D01 = 30542;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 9518 and D01 = 30809;
+
+ /*Marcar D03 = 1 por incompatibilidade entre posição e sexo da pessoa*/
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 978 and D01 = 3262;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 1148 and D01 = 3750;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 1360 and D01 = 4428;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 1428 and D01 = 4615;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 1514 and D01 = 4922;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 1528 and D01 = 4976;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 1539 and D01 = 5007;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 1715 and D01 = 5589;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 4778 and D01 = 15601;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 6777 and D01 = 22038;
+update pmad2018.dp_mor_1718 set D03 = 1 where A01nficha = 9948 and D01 = 32143;
+
+ /*Marcar D03 = 2 por incompatibilidade entre posição e sexo da pessoa*/
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 1029 and D01 = 3374;
+update pmad2018.dp_mor_1718 set D03 = 2 where A01nficha = 1668 and D01 = 5430;
 
 /*Passo 13 - Correção na coluna A01npessoas*/
 
@@ -890,3 +1431,19 @@ into pmad2018.dp_dom_1718
 from pmad2018.tmp;
 
 IF OBJECT_ID('pmad2018.tmp', 'U') IS NOT NULL DROP TABLE pmad2018.tmp; 
+
+/*Domicílios com rede geral mas que respondeu não ter rede geral na B12*/
+update pmad2018.dp_dom_1718 set B12 = 88 where B12 = 3 and B10 = 1;
+
+/*Domicílios com rede geral mas que respondeu não ter rede geral na B13*/
+update pmad2018.dp_dom_1718 set B13 = 88 where B13 = 4 and B10 = 1;
+
+/*Domicílios com rede geral mas que respondeu não ter rede geral na B15*/
+update pmad2018.dp_dom_1718 set B15 = 88 where B15 = 3 and B14 = 1;
+
+/*Domicílios com rede geral mas que respondeu não ter rede geral na B16*/
+update pmad2018.dp_dom_1718 set B16 = 88 where B16 = 4 and B14 = 1;
+
+IF OBJECT_ID('pmad2018.tmp', 'U') IS NOT NULL DROP TABLE pmad2018.tmp; 
+
+IF OBJECT_ID('pmad2018.tmp2', 'U') IS NOT NULL DROP TABLE pmad2018.tmp2; 
