@@ -92,6 +92,23 @@ pmad_2018_dom_imput <- pmad_2018_dom %>%
   # Ajustar a ordem das variáveis
   dplyr::select(nomes) 
 
+# Ajustar o fator de expansão
+fator <- pmad_2018_dom_imput %>% 
+  dplyr::left_join(pmad_2018_mor %>% 
+                     dplyr::select(A01nficha,D01)) %>% 
+  dplyr::select(A01setor,pop_proj) %>% 
+  dplyr::group_by(A01setor) %>% 
+  dplyr::summarise(n=n(),
+                   N=first(pop_proj)) %>% 
+  dplyr::mutate(FATOR_MUN=N/n) %>% 
+  dplyr::select(A01setor,FATOR_MUN)
+
+pmad_2018_dom_imput <- pmad_2018_dom_imput %>%
+  dplyr::select(-FATOR_MUN) %>%
+  dplyr::left_join(fator) %>%
+  # Ajustar a ordem das variáveis
+  dplyr::select(nomes)
+
 # Subir a base imputada no banco de dados
 x <- data.frame(type=sapply(pmad_2018_dom_imput, class),
                 nc=unlist(lapply(pmad_2018_dom_imput, function(x) max(nchar(x), na.rm = T))),
