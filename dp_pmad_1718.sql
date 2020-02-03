@@ -1024,37 +1024,37 @@ update pmad2018.dp_mor_1718 set A01setor = 'Valparaíso de Goiás' where A01seto
 
 ALTER TABLE pmad2018.dp_dom_1718 ADD peso_pre float null, pop_proj int null ;
 
-update pmad2018.dp_dom_1718 set peso_pre = 41.4826086956522, pop_proj = 207070 where A01setor = 'Águas Lindas de Goiás';
+update pmad2018.dp_dom_1718 set peso_pre = 41.4826086956522, pop_proj = 206758 where A01setor = 'Águas Lindas de Goiás';
 
-update pmad2018.dp_dom_1718 set peso_pre = 13.42, pop_proj = 27288 where A01setor = 'Alexânia';
+update pmad2018.dp_dom_1718 set peso_pre = 13.42, pop_proj = 22546 where A01setor = 'Alexânia';
 
-update pmad2018.dp_dom_1718 set peso_pre = 5.942, pop_proj = 12926 where A01setor = 'Cidade Ocidental: Jardim ABC';
+update pmad2018.dp_dom_1718 set peso_pre = 5.942, pop_proj = 12387 where A01setor = 'Cidade Ocidental: Jardim ABC';
 
-update pmad2018.dp_dom_1718 set peso_pre = 23.2716666666667, pop_proj = 56903 where A01setor = 'Cidade Ocidental: Sede';
+update pmad2018.dp_dom_1718 set peso_pre = 23.2716666666667, pop_proj = 54532 where A01setor = 'Cidade Ocidental: Sede';
 
-update pmad2018.dp_dom_1718 set peso_pre = 3.28333333333333, pop_proj = 9871 where A01setor = 'Cocalzinho de Goiás: Girassol/Edilândia';
+update pmad2018.dp_dom_1718 set peso_pre = 3.28333333333333, pop_proj = 7415 where A01setor = 'Cocalzinho de Goiás: Girassol/Edilândia';
 
-update pmad2018.dp_dom_1718 set peso_pre = 3.72424242424242, pop_proj = 10100 where A01setor = 'Cocalzinho de Goiás: Sede';
+update pmad2018.dp_dom_1718 set peso_pre = 3.72424242424242, pop_proj = 7586 where A01setor = 'Cocalzinho de Goiás: Sede';
 
-update pmad2018.dp_dom_1718 set peso_pre = 5.038, pop_proj = 39606 where A01setor = 'Cristalina: Campos Lindos/Marajó';
+update pmad2018.dp_dom_1718 set peso_pre = 5.038, pop_proj = 8191 where A01setor = 'Cristalina: Campos Lindos/Marajó';
 
-update pmad2018.dp_dom_1718 set peso_pre = 17.1927272727273, pop_proj = 47829 where A01setor = 'Cristalina: Sede';
+update pmad2018.dp_dom_1718 set peso_pre = 17.1927272727273, pop_proj = 39451 where A01setor = 'Cristalina: Sede';
 
-update pmad2018.dp_dom_1718 set peso_pre = 32.49, pop_proj = 119506 where A01setor = 'Formosa';
+update pmad2018.dp_dom_1718 set peso_pre = 32.49, pop_proj = 109880 where A01setor = 'Formosa';
 
-update pmad2018.dp_dom_1718 set peso_pre = 39.9879518072289, pop_proj = 75373 where A01setor = 'Luziânia: Jardim Ingá';
+update pmad2018.dp_dom_1718 set peso_pre = 39.9879518072289, pop_proj = 70310 where A01setor = 'Luziânia: Jardim Ingá';
 
-update pmad2018.dp_dom_1718 set peso_pre = 39.8989769820972, pop_proj = 129650 where A01setor = 'Luziânia: Sede';
+update pmad2018.dp_dom_1718 set peso_pre = 39.8989769820972, pop_proj = 120941 where A01setor = 'Luziânia: Sede';
 
-update pmad2018.dp_dom_1718 set peso_pre = 34.4675, pop_proj = 113679 where A01setor = 'Novo Gama';
+update pmad2018.dp_dom_1718 set peso_pre = 34.4675, pop_proj = 112426 where A01setor = 'Novo Gama';
 
-update pmad2018.dp_dom_1718 set peso_pre = 4.53484848484849, pop_proj = 12216 where A01setor = 'Padre Bernardo: Monte Alto';
+update pmad2018.dp_dom_1718 set peso_pre = 4.53484848484849, pop_proj = 9602 where A01setor = 'Padre Bernardo: Monte Alto';
 
-update pmad2018.dp_dom_1718 set peso_pre = 5.51060606060606, pop_proj = 21012 where A01setor = 'Padre Bernardo: Sede';
+update pmad2018.dp_dom_1718 set peso_pre = 5.51060606060606, pop_proj = 16516 where A01setor = 'Padre Bernardo: Sede';
 
-update pmad2018.dp_dom_1718 set peso_pre = 31.868, pop_proj = 89181 where A01setor = 'Planaltina';
+update pmad2018.dp_dom_1718 set peso_pre = 31.868, pop_proj = 84739 where A01setor = 'Planaltina';
 
-update pmad2018.dp_dom_1718 set peso_pre = 27.0215384615385, pop_proj = 73636 where A01setor = 'Santo Antônio do Descoberto';
+update pmad2018.dp_dom_1718 set peso_pre = 27.0215384615385, pop_proj = 66138 where A01setor = 'Santo Antônio do Descoberto';
 
 update pmad2018.dp_dom_1718 set peso_pre = 35.8227272727273, pop_proj = 164723 where A01setor = 'Valparaíso de Goiás';
 
@@ -1447,3 +1447,5 @@ update pmad2018.dp_dom_1718 set B16 = 88 where B16 = 4 and B14 = 1;
 IF OBJECT_ID('pmad2018.tmp', 'U') IS NOT NULL DROP TABLE pmad2018.tmp; 
 
 IF OBJECT_ID('pmad2018.tmp2', 'U') IS NOT NULL DROP TABLE pmad2018.tmp2; 
+
+grant select on pmad2018.dp_mor_1718 to [36692], [11711];
