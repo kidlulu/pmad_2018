@@ -234,6 +234,14 @@ C051, C052, C053, C061, C062, C063, C064, C065, C066, C07, C08, C09, C101, C102,
 into pmad2018.dp_dom_1718
 from pmad2018.tmp;
 
+/*Correção de fichas com resposta “Não sabe” na base pmad2018.dom2017, variável QT_DOM_SER_INTERNET, mas que estão sem marcação equivalenteem C031*/
+update pmad2018.dp_dom_1718_imput
+ set C031 = 9
+where municipio in ('Alexânia','Cristalina','Formosa','Luziânia')
+and A01setor in ('Alexânia','Cristalina: Sede','Formosa','Luziânia: Sede')
+and A01nficha_ant in (1320,2592,5034,4997,5187,3206,3365);
+
+
 /*Passo 04 - Criação de arquivo temporário com adequação da PMAD 2017 à PMAD 2018 MORADORES*/
 
 IF OBJECT_ID('pmad2018.tmp', 'U') IS NOT NULL DROP TABLE pmad2018.tmp; 
