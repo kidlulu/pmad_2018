@@ -1285,3 +1285,30 @@ IF OBJECT_ID('pmad2018.tmp2', 'U') IS NOT NULL DROP TABLE pmad2018.tmp2;
 grant select on pmad2018.dp_mor_1718 to [36692], [11711];
 
 grant select on pmad2018.dp_dom_1718 to [36692], [11711];
+
+
+IF OBJECT_ID('pmad.dom20172018', 'U') IS NOT NULL DROP TABLE pmad.dom20172018; 
+
+select 
+referencia, municipio, A01setor, A01nficha, A01npessoas, datavisita, B01, B02, B03, B04, B05, B06, B07, B08, B09, B10, B11, B12, B13, B14, 
+B15, B16, B17, B18, B191, B192, B193, B194, B195, B201, B202, B203, B204, B205, B206, B211, B212, B213, B214, B215, B216, B217, B218, B22, 
+B231, B232, B233, B234, C011, C012, C013, C014, C015, C016, C017, C018, C019, C021, C022, C023, C031, C032, C033, C034, C0401, C0402, C0403, 
+C0404, C0405, C0406, C0407, C0408, C0409, C0410, C0411, C0412, C0413, C0414, C0415, C0416, C0417, C0418, C0419, C0420, C0421, C0422, C051, 
+C052, C053, C061, C062, C063, C064, C065, C066, C07, C08, C09, C101, C102, C103, C104, peso_pre, pop_proj, FATOR_MUN
+into pmad.dom20172018
+from pmad2018.dp_dom_1718;
+
+IF OBJECT_ID('pmad.mor20172018', 'U') IS NOT NULL DROP TABLE pmad.mor20172018; 
+
+select 
+m.referencia, m.municipio, m.A01setor, m.A01nficha, m.A01npessoas, m.D01, m.D02, m.D06, m.D03, m.D04, m.D05, m.D07, m.D08, m.D09, 
+m.D10, m.D11, m.D12, m.D13, m.D14, m.D15, m.D16, m.D17, m.D18, m.D19, m.D20, m.D21, m.D22, m.E01, m.E02, m.E03, m.E04, m.E05, 
+m.E06, m.E07, m.E08, m.E09, m.E10, m.E11, m.E12, m.E13, m.E14, m.E15, d.FATOR_MUN as fator_mun
+into pmad.mor20172018
+from pmad2018.dp_mor_1718 m
+left join pmad2018.dp_dom_1718 d
+on m.A01nficha = d.A01nficha;
+
+grant select on pmad2018.dp_dom_1718 to [codeplan];
+
+grant select on pmad2018.dp_mor_1718 to [codeplan];
