@@ -1143,12 +1143,14 @@ update pmad2018.dp_mor_1718 set E03 = 5, E04 = 99 where E01 = 1 and E03 = 11 and
 /*Pessoa que frequentam escola e creche mas com idade incompatível*/
 update pmad2018.dp_mor_1718 set E03 = 6, E04 = 99 where E01 = 1 and E03 = 11 and D05 in (4,5);
 
-/*Pessoas com idade abaixo dos 16 anos não contribuem para o INSS*/
-update pmad2018.dp_mor_1718 set E14 = 99 where D05 < 14;
+/*Pessoas com idade abaixo dos 16 anos não contribuem para o INSS e Pessoas com idade entre 10 e 15 recebem 88 - Não sabe se E06 = 1*/
+update pmad2018.dp_mor_1718 set E14 = case when D05 between 10 and 13 and E06 = 1 and E14 in (2,4) then 88 
+                                           when D05 between 10 and 13 and E06 = 1 and E14 in (1,3,88) then E14 
+										   else 99 end 
+						    where D05 < 14;
 
 /*Pessoa que não trabalha não contribui para a previdência*/
 update pmad2018.dp_mor_1718 set E14 = 99 where E06 in (0,2);
-
 
 
 
@@ -1266,7 +1268,7 @@ select
 	t1.C018, t1.C019, t1.C021, t1.C022, t1.C023, t1.C031, t1.C032, t1.C033, t1.C034, t1.C0401, t1.C0402, t1.C0403, t1.C0404, t1.C0405, t1.C0406, 
 	t1.C0407, t1.C0408, t1.C0409, t1.C0410, t1.C0411, t1.C0412, t1.C0413, t1.C0414, t1.C0415, t1.C0416, t1.C0417, t1.C0418, t1.C0419, t1.C0420, 
 	t1.C0421, t1.C0422, t1.C051, t1.C052, t1.C053, t1.C061, t1.C062, t1.C063, t1.C064, t1.C065, t1.C066, t1.C07, t1.C08, t1.C09, t1.C101, t1.C102, 
-	t1.C103, t1.C104/*, t1.peso_pre, t1.pop_proj */
+	t1.C103, t1.C104, t1.peso_pre, t1.pop_proj 
 into pmad2018.tmp 
 from pmad2018.dp_dom_1718 t1
 left join (select A01nficha, count(1) as A01npessoas from pmad2018.dp_mor_1718 group by A01nficha) t2
@@ -1309,7 +1311,7 @@ referencia, municipio, A01setor, A01nficha, A01npessoas, datavisita, B01, B02, B
 B15, B16, B17, B18, B191, B192, B193, B194, B195, B201, B202, B203, B204, B205, B206, B211, B212, B213, B214, B215, B216, B217, B218, B22, 
 B231, B232, B233, B234, C011, C012, C013, C014, C015, C016, C017, C018, C019, C021, C022, C023, C031, C032, C033, C034, C0401, C0402, C0403, 
 C0404, C0405, C0406, C0407, C0408, C0409, C0410, C0411, C0412, C0413, C0414, C0415, C0416, C0417, C0418, C0419, C0420, C0421, C0422, C051, 
-C052, C053, C061, C062, C063, C064, C065, C066, C07, C08, C09, C101, C102, C103, C104, /*peso_pre, pop_proj,*/ FATOR_MUN
+C052, C053, C061, C062, C063, C064, C065, C066, C07, C08, C09, C101, C102, C103, C104, peso_pre, pop_proj, FATOR_MUN
 into pmad.dom20172018
 from pmad2018.dp_dom_1718;
 
@@ -1327,3 +1329,5 @@ on m.A01nficha = d.A01nficha;
 grant select on pmad2018.dp_dom_1718 to [codeplan];
 
 grant select on pmad2018.dp_mor_1718 to [codeplan];
+
+select * from pmad2018.mora2017
