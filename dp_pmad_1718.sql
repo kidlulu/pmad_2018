@@ -666,13 +666,28 @@ select
 t1.referencia, t1.municipio, t1.A01setor, t1.A01nficha_ant, t1.A01nficha, t1.A01npessoas, 
 ROW_NUMBER() OVER(ORDER BY t1.municipio, t1.A01setor, t1.A01nficha_ant, t1.D05) AS D01,
 t1.D02, t1.D06, t1.D03, case when t1.D04 = 8 then 88 else t1.D04 end as D04, t1.D05, 
-case when t1.D07 = 8 then 88 else t1.D07 end as D07, t1.D08, t1.D09, t1.D10, t1.D11, 
+t1.D07, t1.D08, t1.D09, t1.D10, t1.D11, 
 case when T1.D12 < 8888 and t1.D05 < t1.referencia - t1.D12 - 1 then t1.referencia - t1.D05 - 1 else t1.D12 end as D12, t1.D13, 
 t1.D14, t1.D15, t1.D16, t1.D17, t1.D18, t1.D19, t1.D20, t1.D21, t1.D22, 
 t1.E01, t1.E02, t1.E03, t1.E04, t1.E05, t1.E06, t1.E07, t1.E08, t1.E09, 
 t1.E10, t1.E11, t1.E12, t1.E13, t1.E14, t1.E15
 into pmad2018.dp_mor_1718
 from pmad2018.tmp2 t1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*Para pessoas que não são naturais de Goiás ou Não Sabem devem ter Nâo sabem em Por que veio*/
 update pmad2018.dp_mor_1718 set D11 = 99, D12 = 9999, D13 = 99, D14 = 99 where D10 in (9,88) 
@@ -1251,7 +1266,7 @@ select
 	t1.C018, t1.C019, t1.C021, t1.C022, t1.C023, t1.C031, t1.C032, t1.C033, t1.C034, t1.C0401, t1.C0402, t1.C0403, t1.C0404, t1.C0405, t1.C0406, 
 	t1.C0407, t1.C0408, t1.C0409, t1.C0410, t1.C0411, t1.C0412, t1.C0413, t1.C0414, t1.C0415, t1.C0416, t1.C0417, t1.C0418, t1.C0419, t1.C0420, 
 	t1.C0421, t1.C0422, t1.C051, t1.C052, t1.C053, t1.C061, t1.C062, t1.C063, t1.C064, t1.C065, t1.C066, t1.C07, t1.C08, t1.C09, t1.C101, t1.C102, 
-	t1.C103, t1.C104, t1.peso_pre, t1.pop_proj 
+	t1.C103, t1.C104/*, t1.peso_pre, t1.pop_proj */
 into pmad2018.tmp 
 from pmad2018.dp_dom_1718 t1
 left join (select A01nficha, count(1) as A01npessoas from pmad2018.dp_mor_1718 group by A01nficha) t2
@@ -1294,7 +1309,7 @@ referencia, municipio, A01setor, A01nficha, A01npessoas, datavisita, B01, B02, B
 B15, B16, B17, B18, B191, B192, B193, B194, B195, B201, B202, B203, B204, B205, B206, B211, B212, B213, B214, B215, B216, B217, B218, B22, 
 B231, B232, B233, B234, C011, C012, C013, C014, C015, C016, C017, C018, C019, C021, C022, C023, C031, C032, C033, C034, C0401, C0402, C0403, 
 C0404, C0405, C0406, C0407, C0408, C0409, C0410, C0411, C0412, C0413, C0414, C0415, C0416, C0417, C0418, C0419, C0420, C0421, C0422, C051, 
-C052, C053, C061, C062, C063, C064, C065, C066, C07, C08, C09, C101, C102, C103, C104, peso_pre, pop_proj, FATOR_MUN
+C052, C053, C061, C062, C063, C064, C065, C066, C07, C08, C09, C101, C102, C103, C104, /*peso_pre, pop_proj,*/ FATOR_MUN
 into pmad.dom20172018
 from pmad2018.dp_dom_1718;
 
