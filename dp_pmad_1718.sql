@@ -234,14 +234,6 @@ C051, C052, C053, C061, C062, C063, C064, C065, C066, C07, C08, C09, C101, C102,
 into pmad2018.dp_dom_1718
 from pmad2018.tmp;
 
-/*Correção de fichas com resposta “Não sabe” na base pmad2018.dom2017, variável QT_DOM_SER_INTERNET, mas que estão sem marcação equivalenteem C031*/
-update pmad2018.dp_dom_1718_imput
- set C031 = 9
-where municipio in ('Alexânia','Cristalina','Formosa','Luziânia')
-and A01setor in ('Alexânia','Cristalina: Sede','Formosa','Luziânia: Sede')
-and A01nficha_ant in (1320,2592,5034,4997,5187,3206,3365);
-
-
 /*Passo 04 - Criação de arquivo temporário com adequação da PMAD 2017 à PMAD 2018 MORADORES*/
 
 IF OBJECT_ID('pmad2018.tmp', 'U') IS NOT NULL DROP TABLE pmad2018.tmp; 
@@ -1304,6 +1296,13 @@ grant select on pmad2018.dp_mor_1718 to [36692], [11711];
 grant select on pmad2018.dp_dom_1718 to [36692], [11711];
 
 
+/*Correção de fichas com resposta “Não sabe” na base pmad2018.dom2017, variável QT_DOM_SER_INTERNET, mas que estão sem marcação equivalenteem C031*/
+update pmad2018.dp_dom_1718_imput
+ set C031 = 9
+where municipio in ('Alexânia','Cristalina','Formosa','Luziânia')
+and A01setor in ('Alexânia','Cristalina: Sede','Formosa','Luziânia: Sede')
+and A01nficha_ant in (1320,2592,5034,4997,5187,3206,3365);
+
 IF OBJECT_ID('pmad.dom20172018', 'U') IS NOT NULL DROP TABLE pmad.dom20172018; 
 
 select 
@@ -1313,7 +1312,7 @@ B231, B232, B233, B234, C011, C012, C013, C014, C015, C016, C017, C018, C019, C0
 C0404, C0405, C0406, C0407, C0408, C0409, C0410, C0411, C0412, C0413, C0414, C0415, C0416, C0417, C0418, C0419, C0420, C0421, C0422, C051, 
 C052, C053, C061, C062, C063, C064, C065, C066, C07, C08, C09, C101, C102, C103, C104, peso_pre, pop_proj, FATOR_MUN
 into pmad.dom20172018
-from pmad2018.dp_dom_1718;
+from pmad2018.dp_dom_1718_imput;
 
 IF OBJECT_ID('pmad.mor20172018', 'U') IS NOT NULL DROP TABLE pmad.mor20172018; 
 
@@ -1323,11 +1322,9 @@ m.D10, m.D11, m.D12, m.D13, m.D14, m.D15, m.D16, m.D17, m.D18, m.D19, m.D20, m.D
 m.E06, m.E07, m.E08, m.E09, m.E10, m.E11, m.E12, m.E13, m.E14, m.E15, d.FATOR_MUN as fator_mun
 into pmad.mor20172018
 from pmad2018.dp_mor_1718 m
-left join pmad2018.dp_dom_1718 d
+left join pmad2018.dp_dom_1718_imput d
 on m.A01nficha = d.A01nficha;
 
 grant select on pmad2018.dp_dom_1718 to [codeplan];
 
 grant select on pmad2018.dp_mor_1718 to [codeplan];
-
-select * from pmad2018.mora2017
