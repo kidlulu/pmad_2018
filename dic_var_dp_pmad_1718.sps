@@ -1,9 +1,9 @@
-* Encoding: ISO-8859-1.
+* Encoding: windows-1252.
 
 GET DATA
   /TYPE=ODBC
   /CONNECT='DSN=db_codeplan;UID=35866;PWD=4I#u({(r)u/t,}!n,/$,!!;'
-  /SQL='SELECT * FROM DB_CODEPLAN.pmad2018.dp_dom_1718'
+  /SQL='SELECT * FROM DB_CODEPLAN.pmad2018.dp_dom_1718_imput'
   /ASSUMEDSTRWIDTH=255.
 CACHE.
 
