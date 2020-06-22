@@ -1303,6 +1303,31 @@ where municipio in ('Alexânia','Cristalina','Formosa','Luziânia')
 and A01setor in ('Alexânia','Cristalina: Sede','Formosa','Luziânia: Sede')
 and A01nficha_ant in (1320,2592,5034,4997,5187,3206,3365);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 IF OBJECT_ID('pmad.dom20172018', 'U') IS NOT NULL DROP TABLE pmad.dom20172018; 
 
 select 
@@ -1310,7 +1335,7 @@ referencia, municipio, A01setor, A01nficha, A01npessoas, datavisita, B01, B02, B
 B15, B16, B17, B18, B191, B192, B193, B194, B195, B201, B202, B203, B204, B205, B206, B211, B212, B213, B214, B215, B216, B217, B218, B22, 
 B231, B232, B233, B234, C011, C012, C013, C014, C015, C016, C017, C018, C019, C021, C022, C023, C031, C032, C033, C034, C0401, C0402, C0403, 
 C0404, C0405, C0406, C0407, C0408, C0409, C0410, C0411, C0412, C0413, C0414, C0415, C0416, C0417, C0418, C0419, C0420, C0421, C0422, C051, 
-C052, C053, C061, C062, C063, C064, C065, C066, C07, C08, C09, C101, C102, C103, C104, peso_pre, pop_proj, FATOR_MUN
+C052, C053, C061, C062, C063, C064, C065, C066, C07, C08, C09, C101, C102, C103, C104, peso_pre, FATOR_MUN
 into pmad.dom20172018
 from pmad2018.dp_dom_1718_imput;
 
@@ -1335,11 +1360,32 @@ update pmad.dom20172018 set A01npessoas = 2 where A01nficha = 6422;
 update pmad.mor20172018 set A01npessoas = 5 where A01nficha = 4941;
 update pmad.mor20172018 set A01npessoas = 2 where A01nficha = 6422;
 
-/*Correção do número do setor censitário*/
-/*update pmad2018.dp_dom_1718_imput set setorcensitario = case when ltrim(rtrim(municipio)) in ('Alexânia','Cidade Ocidental','Cristalina','Formosa','Luziânia','Novo Gama','Santo Antônio do Descoberto') then cast(substring(cast(ltrim(rtrim(setorcensitario)) as char(15)),13,3) as bigint)
-                                                             else null end
-                                  where referencia < 2018;*/
+update pmad.mor20172018 set E14 =  case when E06 in (1,3) and E08 in (1,5,13) and E14=0 then 3 
+                                        when E06 in (1,3) and E08=4 and E14=0 then 2
+                                        when E06 in (1,3) and E08=12 and E14=0 then 1
+                                        when E06 in (1,3) and E08 in (2,3,6,7,8,9,10,11,14,88) and E14=0 then 88
+                                        else E14 end;
 
+update pmad2018.dp_mor_1718 set E14 =  case when E06 in (1,3) and E08 in (1,5,13) and E14=0 then 3 
+                                        when E06 in (1,3) and E08=4 and E14=0 then 2
+                                        when E06 in (1,3) and E08=12 and E14=0 then 1
+                                        when E06 in (1,3) and E08 in (2,3,6,7,8,9,10,11,14,88) and E14=0 then 88
+                                        else E14 end;
+
+
+select E06, E14, count(1) from  pmad2018.dp_mor_1718 group by E06,E14 order by E06,E14
+
+update pmad.mor20172018 set E14 =  case when E06=1 and E08 in (1,5,13) and E14=0 then 3 
+                                        when E06=1 and E08=4 and E14=0 then 2
+										when E06=1 and E08=12 and E14=0 then 1
+										when E06=1 and E08 in (2,3,6,7,8,9,10,11,14,88) and E14=0 then 88
+										else E14 end;
+
+update pmad2018.dp_mor_1718 set E14 =  case when E06=1 and E08 in (1,5,13) and E14=0 then 3 
+                                        when E06=1 and E08=4 and E14=0 then 2
+										when E06=1 and E08=12 and E14=0 then 1
+										when E06=1 and E08 in (2,3,6,7,8,9,10,11,14,88) and E14=0 then 88
+										else E14 end;
 
 
 grant select on pmad2018.dp_dom_1718 to [codeplan];
