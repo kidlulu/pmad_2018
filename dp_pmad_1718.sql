@@ -1388,6 +1388,17 @@ update pmad2018.dp_mor_1718 set E14 =  case when E06=1 and E08 in (1,5,13) and E
 										else E14 end;
 
 
-grant select on pmad2018.dp_dom_1718 to [codeplan];
+grant select on pmad2018.dp_dom_1718_imput to [11711];
 
-grant select on pmad2018.dp_mor_1718 to [codeplan];
+grant select on pmad2018.dp_mor_1718 to [11711];
+
+grant select on pmad2018.dp_dom_1718_imput to [36692];
+
+grant select on pmad2018.dp_mor_1718 to [36692];
+
+--REVOKE SELECT ON OBJECT::pmad2018.dom2017 from [codeplan];
+--REVOKE SELECT ON OBJECT::pmad2018.domicilios_final from [codeplan];
+--REVOKE SELECT ON OBJECT::pmad2018.dp_dom_1718 from [codeplan];
+--REVOKE SELECT ON OBJECT::pmad2018.mora2017 from [codeplan];
+--REVOKE SELECT ON OBJECT::pmad2018.mora2018 from [codeplan];
+--REVOKE SELECT ON OBJECT::pmad2018.moradores_final from [codeplan];
