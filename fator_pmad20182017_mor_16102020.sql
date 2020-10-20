@@ -32,7 +32,7 @@ GO
 IF OBJECT_ID('pmad2018.dp_mor_1718', 'U') IS NOT NULL DROP TABLE pmad2018.dp_mor_1718; 
 
 select 
-t1.referencia, t1.municipio, t1.A01setor, t1.A01nficha, t1.A01nPessoas as A01npessoas, t1.D02, 
+t1.referencia, t1.municipio, t1.A01setor, t1.A01nficha_ant, t1.A01nficha, t1.A01nPessoas as A01npessoas, t1.D01, t1.D02, 
 t1.D06, t1.D03, t1.D04, t1.D05, t1.D07, t1.D08, t1.D09, t1.D10, t1.D11, t1.D12, t1.D13, t1.D14, 
 t1.D15, t1.D16, t1.D17, t1.D18, t1.D19, t1.D20, t1.D21, t1.D22, t1.E01, t1.E02, t1.E03, t1.E04, 
 t1.E05, t1.E06, t1.E07, t1.E08, t1.E09, t1.E10, t1.E11, t1.E12, t1.E13, t1.E14, t1.E15, t2.nsao as pop_proj, 
