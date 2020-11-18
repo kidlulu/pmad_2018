@@ -118,7 +118,7 @@ and case when t1.d05 between 0 and 4 then 'fx0a4'
 IF OBJECT_ID('pmad2018.dp_dom_1718_imput', 'U') IS NOT NULL DROP TABLE pmad2018.dp_dom_1718_imput; 
 
 select 
-t1.referencia, t1.municipio, t1.A01setor, t1.setorcensitario, t1.A01nficha, t1.datavisita, 
+t1.referencia, t1.municipio, t1.A01setor, t1.setorcensitario, t1.A01nficha_ant, t1.A01nficha, t1.datavisita, 
 t1.B01, t1.B02, t1.B03, t1.B04, t1.B05, t1.B06, t1.B07, t1.B08, t1.B09, t1.B10, t1.B11, t1.B12, t1.B13, t1.B14, t1.B15, 
 t1.B16, t1.B17, t1.B18, t1.B191, t1.B192, t1.B193, t1.B194, t1.B195, t1.B201, t1.B202, t1.B203, t1.B204, t1.B205, t1.B206, 
 t1.B211, t1.B212, t1.B213, t1.B214, t1.B215, t1.B216, t1.B217, t1.B218, t1.B22, t1.B231, t1.B232, t1.B233, t1.B234, t1.C011, 
