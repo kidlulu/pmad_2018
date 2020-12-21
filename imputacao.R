@@ -1,3 +1,24 @@
+rm(list = ls())
+# Fluxos PMAD
+
+# Carregar pacotes
+library(tidyverse)
+library(survey)
+library(srvyr)
+library(DBI)
+
+# Abrir conexão com o banco de dados
+db <- DBI::dbConnect(odbc::odbc(),"db_codeplan",
+                     uid=Sys.getenv("matricula"),
+                     pwd=Sys.getenv("senha"))
+
+# Puxar a base de dados de domicilios
+pmad_2018_dom <- DBI::dbGetQuery(db,"select * from pmad2018.dp_dom_1718")
+
+# Puxar a base de dados de moradores
+pmad_2018_mor <- DBI::dbGetQuery(db, "select * from pmad2018.dp_mor_1718")
+
+
 # Montar uma base de covariáveis a partir da informação do chefe
 # do domicílio, presentes na base de pessoas
 chefes <- pmad_2018_mor %>%
@@ -92,6 +113,31 @@ pmad_2018_dom_imput <- pmad_2018_dom %>%
   # Ajustar a ordem das variáveis
   dplyr::select(nomes) 
 
+# Ajustar a população
+pmad_2018_dom_imput <- pmad_2018_dom_imput %>% 
+  dplyr::mutate(pop_proj=case_when(A01setor=="Valparaíso de Goiás"~164723,
+                                   A01setor=="Novo Gama"~112426,
+                                   A01setor=="Cidade Ocidental: Sede"~54532,
+                                   A01setor=="Cidade Ocidental: Jardim ABC"~12387,
+                                   A01setor=="Luziânia: Sede"~120941,
+                                   A01setor=="Luziânia: Jardim Ingá"~70310,
+                                   A01setor=="Águas Lindas de Goiás"~206758,
+                                   A01setor=="Santo Antônio do Descoberto"~66138,
+                                   A01setor=="Planaltina"~84739,
+                                   A01setor=="Formosa"~109880,
+                                   A01setor=="Padre Bernardo: Sede"~16516,
+                                   A01setor=="Padre Bernardo: Monte Alto"~9602,
+                                   A01setor=="Alexânia"~22546,
+                                   A01setor=="Cristalina: Sede"~39451,
+                                   A01setor=="Cristalina: Campos Lindos/Marajó"~8191,
+                                   A01setor=="Cocalzinho de Goiás: Sede"~7586,
+                                   A01setor=="Cocalzinho de Goiás: Girassol/Edilând"~7415),
+                municipio=case_when(municipio=="Santo Antônio do Descobert"~"Santo Antônio do Descoberto",
+                                    TRUE~municipio),
+                A01setor=case_when(A01setor=="Cocalzinho de Goiás: Girassol/Edilând"~"Cocalzinho de Goiás: Girassol/Edilândia",
+                                   TRUE~A01setor))
+
+
 # Ajustar o fator de expansão
 fator <- pmad_2018_dom_imput %>% 
   dplyr::left_join(pmad_2018_mor %>% 
@@ -134,3 +180,5 @@ dbExecute(db,"ALTER USER [36072] WITH DEFAULT_SCHEMA = [pmad2018]")
 DBI::dbGetQuery(db,"IF OBJECT_ID('pmad2018.dp_dom_1718_imput', 'U') IS NOT NULL DROP TABLE pmad2018.dp_dom_1718_imput")
 
 DBI::dbWriteTable(db,"dp_dom_1718_imput",pmad_2018_dom_imput,append = TRUE, field.types = columnTypes)
+
+dbExecute(db,"grant select on pmad2018.dp_dom_1718_imput to [36692], [11711]")
