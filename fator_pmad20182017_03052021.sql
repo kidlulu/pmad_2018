@@ -24,7 +24,25 @@ set  fator_mun = case when trim(A01setor) = 'Águas Lindas de Goiás' then 68.0111
                       when trim(A01setor) = 'Planaltina' then 38.8530111886967
                       when trim(A01setor) = 'Santo Antônio do Descoberto' then 30.2109629259105
                       when trim(A01setor) = 'Valparaíso de Goiás' then 61.3931121413451
-					  end;
+					  end,
+     TOT_DOM = case when trim(A01setor) = 'Águas Lindas de Goiás' then 65086.654812558
+                      when trim(A01setor) = 'Alexânia' then 6816.93871622052
+                      when trim(A01setor) = 'Cidade Ocidental: Jardim ABC' then 3481.30308742804
+                      when trim(A01setor) = 'Cidade Ocidental: Sede' then 16336.6359413156
+                      when trim(A01setor) = 'Cocalzinho de Goiás: Girassol/Edilândia' then 2586.23565877927
+                      when trim(A01setor) = 'Cocalzinho de Goiás: Sede' then 2857.0211850431
+                      when trim(A01setor) = 'Cristalina: Campos Lindos/Marajó' then 2248.025680682
+                      when trim(A01setor) = 'Cristalina: Sede' then 11279.535766867
+                      when trim(A01setor) = 'Formosa' then 32553.1907649511
+                      when trim(A01setor) = 'Luziânia: Jardim Ingá' then 21900.9021576181
+                      when trim(A01setor) = 'Luziânia: Sede' then 35544.8002655163
+                      when trim(A01setor) = 'Novo Gama' then 34233.980408509
+                      when trim(A01setor) = 'Padre Bernardo: Monte Alto' then 2985.79291807319
+                      when trim(A01setor) = 'Padre Bernardo: Sede' then 4152.82150640541
+                      when trim(A01setor) = 'Planaltina' then 25060.1922167094
+                      when trim(A01setor) = 'Santo Antônio do Descoberto' then 19576.70397599
+                      when trim(A01setor) = 'Valparaíso de Goiás' then 55499.373375776
+               end;
 
 --IF OBJECT_ID('pmad2018.dp_mor_1718_20210504', 'U') IS NOT NULL DROP TABLE pmad2018.dp_mor_1718_20210504;
 
