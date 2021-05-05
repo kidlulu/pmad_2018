@@ -6,6 +6,8 @@ SET QUOTED_IDENTIFIER ON;
 
 --select * into pmad2018.dp_dom_1718_imput_20210504 from pmad2018.dp_dom_1718_imput;
 
+ALTER TABLE pmad2018.dp_dom_1718_imput ALTER COLUMN TOT_DOM FLOAT;  
+
 update pmad2018.dp_dom_1718_imput 
 set  fator_mun = case when trim(A01setor) = 'Águas Lindas de Goiás' then 68.011133555442
                       when trim(A01setor) = 'Alexânia' then 13.633877432441
@@ -44,11 +46,16 @@ set  fator_mun = case when trim(A01setor) = 'Águas Lindas de Goiás' then 68.0111
                       when trim(A01setor) = 'Valparaíso de Goiás' then 55499.373375776
                end;
 
+select sum(t.Nzao)
+from (select A01setor, max(TOT_DOM) as Nzao
+      from pmad2018.dp_dom_1718_imput
+      group by A01setor) t;
+
+select sum(fator_mun) from pmad2018.dp_dom_1718_imput;
+
 --IF OBJECT_ID('pmad2018.dp_mor_1718_20210504', 'U') IS NOT NULL DROP TABLE pmad2018.dp_mor_1718_20210504;
 
 --select * into pmad2018.dp_mor_1718_20210504 from pmad2018.dp_mor_1718;
-
-select max(D05) from pmad2018.dp_mor_1718
 
 IF OBJECT_ID('pmad2018.tmp', 'U') IS NOT NULL DROP TABLE pmad2018.tmp;
 
@@ -576,6 +583,8 @@ insert into pmad2018.tmp (distrito,distrito_nome,dc_sexo,cd_sexo,faixa_idade,fx_
 insert into pmad2018.tmp (distrito,distrito_nome,dc_sexo,cd_sexo,faixa_idade,fx_idade,nsao,nzinho,fator) values (7,'Valparaíso de Goiás','FEMININO',2,15,'fx70m',2165.41051805814,36,60.1502921682817);
 insert into pmad2018.tmp (distrito,distrito_nome,dc_sexo,cd_sexo,faixa_idade,fx_idade,nsao,nzinho,fator) values (7,'Valparaíso de Goiás','MASCULINO',1,15,'fx70m',1669.26712111907,32,52.1645975349709);
 
+ALTER TABLE pmad2018.dp_mor_1718 ALTER COLUMN pop_proj FLOAT;  
+
 update m
 set 
  m.fator_mun = t.fator,
@@ -602,5 +611,30 @@ and case when m.d05 between 0 and 4 then 'fx0a4'
 	     else null
 	end = t.fx_idade;
 
+select sum(t.pop_proj) as sum_pop_proj
+from (select
+       max(m.pop_proj) as pop_proj
+      from pmad2018.dp_mor_1718 m,
+           pmad2018.tmp t
+      group by m.A01setor,
+               m.D03,
+               case when m.d05 between 0 and 4 then 'fx0a4'
+                    when m.d05 between 5 and 9 then 'fx5a9'
+                    when m.d05 between 10 and 14 then 'fx10a14'
+                    when m.d05 between 15 and 19 then 'fx15a19'
+                    when m.d05 between 20 and 24 then 'fx20a24'
+                    when m.d05 between 25 and 29 then 'fx25a29'
+                    when m.d05 between 30 and 34 then 'fx30a34'
+                    when m.d05 between 35 and 39 then 'fx35a39'
+                    when m.d05 between 40 and 44 then 'fx40a44'
+                    when m.d05 between 45 and 49 then 'fx45a49'
+                    when m.d05 between 50 and 54 then 'fx50a54'
+                    when m.d05 between 55 and 59 then 'fx55a59'
+                    when m.d05 between 60 and 64 then 'fx60a64'
+                    when m.d05 between 65 and 69 then 'fx65a69'
+                    when m.d05 >= 70 then 'fx70m'
+           	     else null
+           	 end) t;
 
+select sum(fator_mun) from pmad2018.dp_mor_1718;
 
