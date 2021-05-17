@@ -6,10 +6,41 @@ GET DATA
     /SQL=
  " select " 
  " d.referencia, " 
- " d.municipio, " 
- " d.A01setor, " 
+ " case when trim(d.municipio) = 'Águas Lindas de Goiás' then 41 " 
+ "      when trim(d.municipio) = 'Alexânia' then 42 " 
+ "      when trim(d.municipio) = 'Cidade Ocidental' then 43 " 
+ "      when trim(d.municipio) = 'Cocalzinho de Goiás' then 45 " 
+ "      when trim(d.municipio) = 'Cristalina' then 44 " 
+ "      when trim(d.municipio) = 'Formosa' then 46 " 
+ "      when trim(d.municipio) = 'Luziânia' then 47 " 
+ "      when trim(d.municipio) = 'Novo Gama' then 48 " 
+ "      when trim(d.municipio) = 'Padre Bernardo' then 49 " 
+ "      when trim(d.municipio) = 'Planaltina' then 50 " 
+ "      when trim(d.municipio) = 'Santo Antônio do Descoberto' then 51 " 
+ "      when trim(d.municipio) = 'Valparaíso de Goiás' then 52 " 
+ "      else null " 
+ " end as municipio, " 
+ " case when trim(d.A01setor) = 'Águas Lindas de Goiás' then 1 " 
+ "      when trim(d.A01setor) = 'Cocalzinho de Goiás: Girassol/Edilândia' then 2 " 
+ "      when trim(d.A01setor) = 'Cocalzinho de Goiás: Sede' then 3 " 
+ "      when trim(d.A01setor) = 'Padre Bernardo: Sede' then 4 " 
+ "      when trim(d.A01setor) = 'Padre Bernardo: Monte Alto' then 5 " 
+ "      when trim(d.A01setor) = 'Planaltina' then 6 " 
+ "      when trim(d.A01setor) = 'Valparaíso de Goiás' then 7 " 
+ "      when trim(d.A01setor) = 'Alexânia' then 8 " 
+ "      when trim(d.A01setor) = 'Cristalina: Sede' then 9 " 
+ "      when trim(d.A01setor) = 'Cristalina: Campos Lindos/Marajó' then 10 " 
+ "      when trim(d.A01setor) = 'Formosa' then 11 " 
+ "      when trim(d.A01setor) = 'Luziânia: Sede' then 12 " 
+ "      when trim(d.A01setor) = 'Luziânia: Jardim Ingá' then 13 " 
+ "      when trim(d.A01setor) = 'Novo Gama' then 14 " 
+ "      when trim(d.A01setor) = 'Cidade Ocidental: Sede' then 15 " 
+ "      when trim(d.A01setor) = 'Cidade Ocidental: Jardim ABC' then 16 " 
+ "      when trim(d.A01setor) = 'Santo Antônio do Descoberto' then 17 " 
+ "      else null " 
+ " end as A01setor, " 
  " d.A01nficha, " 
- " m.A01nPessoas, " 
+ " m.A01nPessoas as A01npessoas, " 
  " d.datavisita, " 
  " d.B01, " 
  " d.B02, " 
@@ -70,49 +101,27 @@ GET DATA
  " d.C033, " 
  " d.C034, " 
  " d.C0401, " 
- " d.C0401_imput, " 
  " d.C0402, " 
- " d.C0402_imput, " 
  " d.C0403, " 
- " d.C0403_imput, " 
  " d.C0404, " 
- " d.C0404_imput, " 
  " d.C0405, " 
- " d.C0405_imput, " 
  " d.C0406, " 
- " d.C0406_imput, " 
  " d.C0407, " 
- " d.C0407_imput, " 
  " d.C0408, " 
- " d.C0408_imput, " 
  " d.C0409, " 
- " d.C0409_imput, " 
  " d.C0410, " 
- " d.C0410_imput, " 
  " d.C0411, " 
- " d.C0411_imput, " 
  " d.C0412, " 
- " d.C0412_imput, " 
  " d.C0413, " 
- " d.C0413_imput, " 
  " d.C0414, " 
- " d.C0414_imput, " 
  " d.C0415, " 
- " d.C0415_imput, " 
  " d.C0416, " 
- " d.C0416_imput, " 
  " d.C0417, " 
- " d.C0417_imput, " 
  " d.C0418, " 
- " d.C0418_imput, " 
  " d.C0419, " 
- " d.C0419_imput, " 
  " d.C0420, " 
- " d.C0420_imput, " 
  " d.C0421, " 
- " d.C0421_imput, " 
  " d.C0422, " 
- " d.C0422_imput, " 
  " d.C051, " 
  " d.C052, " 
  " d.C053, " 
@@ -129,13 +138,35 @@ GET DATA
  " d.C102, " 
  " d.C103, " 
  " d.C104, " 
+ " d.C0401_imput, " 
+ " d.C0402_imput, " 
+ " d.C0403_imput, " 
+ " d.C0404_imput, " 
+ " d.C0405_imput, " 
+ " d.C0406_imput, " 
+ " d.C0407_imput, " 
+ " d.C0408_imput, " 
+ " d.C0409_imput, " 
+ " d.C0410_imput, " 
+ " d.C0411_imput, " 
+ " d.C0412_imput, " 
+ " d.C0413_imput, " 
+ " d.C0414_imput, " 
+ " d.C0415_imput, " 
+ " d.C0416_imput, " 
+ " d.C0417_imput, " 
+ " d.C0418_imput, " 
+ " d.C0419_imput, " 
+ " d.C0420_imput, " 
+ " d.C0421_imput, " 
+ " d.C0422_imput, " 
  " d.fator_mun as PESO, " 
  " d.peso_pre as INV_FRAC, " 
  " d.TOT_DOM as PROJ_DOM " 
  " from pmad2018.dp_dom_1718_imput d, " 
  " (select  " 
  "   A01nficha , " 
- "   max(A01npessoas) as A01nPessoas " 
+ "   max(A01npessoas) as A01npessoas " 
  "  from pmad2018.dp_mor_1718 " 
  "  group by A01nficha) m " 
  " where d.A01nficha = m.A01nficha " 
@@ -146,7 +177,7 @@ variable labels referencia "Ano da pesquisa".
 variable labels municipio "Município pesquisado".
 variable labels A01setor "Setor Pesquisado".
 variable labels A01nficha "Número da ficha".
-variable labels A01nPessoas "Qtd. pessoas no domicílio".
+variable labels A01npessoas "Qtd. pessoas no domicílio".
 variable labels datavisita "Data da Entrevista".
 variable labels B01 "Espécie do domicílio".
 variable labels B02 "Tipo do seu domicílio".
@@ -693,80 +724,79 @@ DISPLAY DICTIONARY.
 
 SAVE TRANSLATE /TYPE=ODBC
   /BULKLOADING BATCHSIZE=10000 METHOD=ODBC BINDING=ROW 
-  /CONNECT='DSN=DB_CODEPLAN;UID=35866;PWD=4J,z+G$A%F#w#}!b/,$#-!;APP=IBM SPSS Products: '+
+  /CONNECT='DSN=DB_CODEPLAN;UID=35866;PWD=7y,z(K$~*E/G/~-b,,+/--;APP=IBM SPSS Products: '+
     'Statistics Common;WSID=DESKTOP-7QGJTQA;DATABASE=DB_CODEPLAN;LANGUAGE=Português (Brasil)'
   /ENCRYPTED
   /MISSING=RECODE
   /SQL="IF OBJECT_ID('pmad2018.dom_pub', 'U') IS NOT NULL DROP TABLE pmad2018.dom_pub"
   /SQL='CREATE TABLE pmad2018.dom_pub ([referencia] float , '+
-    '[municipio] varchar (27), [A01setor] varchar (39), [A01nficha] float , [A01nPessoas] float , '+
-    '[datavisita] varchar (10), [B01] float , [B02] float , [B03] float , [B04] float , [B05] '+
-    'float , [B06] float , [B07] float , [B08] float , [B09] float , [B10] float , [B11] float , '+
-    '[B12] float , [B13] float , [B14] float , [B15] float , [B16] float , [B17] float , [B18] '+
-    'float , [B191] float , [B192] float , [B193] float , [B194] float , [B195] float , [B201] '+
-    'float , [B202] float , [B203] float , [B204] float , [B205] float , [B206] float , [B211] '+
-    'float , [B212] float , [B213] float , [B214] float , [B215] float , [B216] float , [B217] '+
-    'float , [B218] float , [B22] float , [B231] float , [B232] float , [B233] float , [B234] '+
-    'float , [C011] float , [C012] float , [C013] float , [C014] float , [C015] float , [C016] '+
-    'float , [C017] float , [C018] float , [C019] float , [C021] float , [C022] float , [C023] '+
-    'float , [C031] float , [C032] float , [C033] float , [C034] float , [C0401] float , '+
-    '[C0401_imput] float , [C0402] float , [C0402_imput] float , [C0403] float , [C0403_imput] '+
-    'float , [C0404] float , [C0404_imput] float , [C0405] float , [C0405_imput] float , [C0406] '+
-    'float , [C0406_imput] float , [C0407] float , [C0407_imput] float , [C0408] float , '+
-    '[C0408_imput] float , [C0409] float , [C0409_imput] float , [C0410] float , [C0410_imput] '+
-    'float , [C0411] float , [C0411_imput] float , [C0412] float , [C0412_imput] float , [C0413] '+
-    'float , [C0413_imput] float , [C0414] float , [C0414_imput] float , [C0415] float , '+
-    '[C0415_imput] float , [C0416] float , [C0416_imput] float , [C0417] float , [C0417_imput] '+
-    'float , [C0418] float , [C0418_imput] float , [C0419] float , [C0419_imput] float , [C0420] '+
-    'float , [C0420_imput] float , [C0421] float , [C0421_imput] float , [C0422] float , '+
-    '[C0422_imput] float , [C051] float , [C052] float , [C053] float , [C061] float , [C062] '+
-    'float , [C063] float , [C064] float , [C065] float , [C066] float , [C07] float , [C08] float '+
-    ', [C09] float , [C101] float , [C102] float , [C103] float , [C104] float , [PESO] float , '+
-    '[INV_FRAC] float , [PROJ_DOM] float )'
+    '[municipio] float, [A01setor] float, [A01nficha] float , '+
+    ' [A01npessoas] float , [datavisita] varchar (10), [B01] float , [B02] float , [B03] '+
+    'float , [B04] float , [B05] float , [B06] float , [B07] float , [B08] float , [B09] float , '+
+    '[B10] float , [B11] float , [B12] float , [B13] float , [B14] float , [B15] float , [B16] '+
+    'float , [B17] float , [B18] float , [B191] float , [B192] float , [B193] float , [B194] float '+
+    ', [B195] float , [B201] float , [B202] float , [B203] float , [B204] float , [B205] float , '+
+    '[B206] float , [B211] float , [B212] float , [B213] float , [B214] float , [B215] float , '+
+    '[B216] float , [B217] float , [B218] float , [B22] float , [B231] float , [B232] float , '+
+    '[B233] float , [B234] float , [C011] float , [C012] float , [C013] float , [C014] float , '+
+    '[C015] float , [C016] float , [C017] float , [C018] float , [C019] float , [C021] float , '+
+    '[C022] float , [C023] float , [C031] float , [C032] float , [C033] float , [C034] float , '+
+    '[C0401] float , [C0402] float , [C0403] float , [C0404] float , [C0405] float , [C0406] float '+
+    ', [C0407] float , [C0408] float , [C0409] float , [C0410] float , [C0411] float , [C0412] '+
+    'float , [C0413] float , [C0414] float , [C0415] float , [C0416] float , [C0417] float , '+
+    '[C0418] float , [C0419] float , [C0420] float , [C0421] float , [C0422] float , [C051] float '+
+    ', [C052] float , [C053] float , [C061] float , [C062] float , [C063] float , [C064] float , '+
+    '[C065] float , [C066] float , [C07] float , [C08] float , [C09] float , [C101] float , [C102] '+
+    'float , [C103] float , [C104] float , [C0401_imput] float , [C0402_imput] float , '+
+    '[C0403_imput] float , [C0404_imput] float , [C0405_imput] float , [C0406_imput] float , '+
+    '[C0407_imput] float , [C0408_imput] float , [C0409_imput] float , [C0410_imput] float , '+
+    '[C0411_imput] float , [C0412_imput] float , [C0413_imput] float , [C0414_imput] float , '+
+    '[C0415_imput] float , [C0416_imput] float , [C0417_imput] float , [C0418_imput] float , '+
+    '[C0419_imput] float , [C0420_imput] float , [C0421_imput] float , [C0422_imput] float , '+
+    '[PESO] float , [INV_FRAC] float , [PROJ_DOM] float )'
   /REPLACE
   /TABLE='SPSS_TEMP'
-  /KEEP=referencia, municipio, A01setor, A01nficha, A01nPessoas, datavisita, B01, B02, B03, B04, 
-    B05, B06, B07, B08, B09, B10, B11, B12, B13, B14, B15, B16, B17, B18, B191, B192, B193, B194, B195, 
-    B201, B202, B203, B204, B205, B206, B211, B212, B213, B214, B215, B216, B217, B218, B22, B231, 
-    B232, B233, B234, C011, C012, C013, C014, C015, C016, C017, C018, C019, C021, C022, C023, C031, 
-    C032, C033, C034, C0401, C0401_imput, C0402, C0402_imput, C0403, C0403_imput, C0404, C0404_imput, 
-    C0405, C0405_imput, C0406, C0406_imput, C0407, C0407_imput, C0408, C0408_imput, C0409, C0409_imput, 
-    C0410, C0410_imput, C0411, C0411_imput, C0412, C0412_imput, C0413, C0413_imput, C0414, C0414_imput, 
-    C0415, C0415_imput, C0416, C0416_imput, C0417, C0417_imput, C0418, C0418_imput, C0419, C0419_imput, 
-    C0420, C0420_imput, C0421, C0421_imput, C0422, C0422_imput, C051, C052, C053, C061, C062, C063, 
-    C064, C065, C066, C07, C08, C09, C101, C102, C103, C104, PESO, INV_FRAC, PROJ_DOM
+  /KEEP=referencia, municipio, A01setor, A01nficha, A01npessoas, datavisita, B01, 
+    B02, B03, B04, B05, B06, B07, B08, B09, B10, B11, B12, B13, B14, B15, B16, B17, B18, B191, B192, 
+    B193, B194, B195, B201, B202, B203, B204, B205, B206, B211, B212, B213, B214, B215, B216, B217, 
+    B218, B22, B231, B232, B233, B234, C011, C012, C013, C014, C015, C016, C017, C018, C019, C021, 
+    C022, C023, C031, C032, C033, C034, C0401, C0402, C0403, C0404, C0405, C0406, C0407, C0408, C0409, 
+    C0410, C0411, C0412, C0413, C0414, C0415, C0416, C0417, C0418, C0419, C0420, C0421, C0422, C051, 
+    C052, C053, C061, C062, C063, C064, C065, C066, C07, C08, C09, C101, C102, C103, C104, C0401_imput, 
+    C0402_imput, C0403_imput, C0404_imput, C0405_imput, C0406_imput, C0407_imput, C0408_imput, 
+    C0409_imput, C0410_imput, C0411_imput, C0412_imput, C0413_imput, C0414_imput, C0415_imput, 
+    C0416_imput, C0417_imput, C0418_imput, C0419_imput, C0420_imput, C0421_imput, C0422_imput, PESO, 
+    INV_FRAC, PROJ_DOM
   /SQL='INSERT INTO pmad2018.dom_pub ([referencia], '+
-    '[municipio], [A01setor], [A01nficha], [A01nPessoas], [datavisita], [B01], [B02], [B03], '+
-    '[B04], [B05], [B06], [B07], [B08], [B09], [B10], [B11], [B12], [B13], [B14], [B15], [B16], '+
-    '[B17], [B18], [B191], [B192], [B193], [B194], [B195], [B201], [B202], [B203], [B204], [B205], '+
-    '[B206], [B211], [B212], [B213], [B214], [B215], [B216], [B217], [B218], [B22], [B231], '+
-    '[B232], [B233], [B234], [C011], [C012], [C013], [C014], [C015], [C016], [C017], [C018], '+
-    '[C019], [C021], [C022], [C023], [C031], [C032], [C033], [C034], [C0401], [C0401_imput], '+
-    '[C0402], [C0402_imput], [C0403], [C0403_imput], [C0404], [C0404_imput], [C0405], '+
-    '[C0405_imput], [C0406], [C0406_imput], [C0407], [C0407_imput], [C0408], [C0408_imput], '+
-    '[C0409], [C0409_imput], [C0410], [C0410_imput], [C0411], [C0411_imput], [C0412], '+
-    '[C0412_imput], [C0413], [C0413_imput], [C0414], [C0414_imput], [C0415], [C0415_imput], '+
-    '[C0416], [C0416_imput], [C0417], [C0417_imput], [C0418], [C0418_imput], [C0419], '+
-    '[C0419_imput], [C0420], [C0420_imput], [C0421], [C0421_imput], [C0422], [C0422_imput], '+
-    '[C051], [C052], [C053], [C061], [C062], [C063], [C064], [C065], [C066], [C07], [C08], [C09], '+
-    '[C101], [C102], [C103], [C104], [PESO], [INV_FRAC], [PROJ_DOM]) SELECT [referencia], '+
-    '[municipio], [A01setor], [A01nficha], [A01nPessoas], [datavisita], [B01], [B02], [B03], '+
-    '[B04], [B05], [B06], [B07], [B08], [B09], [B10], [B11], [B12], [B13], [B14], [B15], [B16], '+
-    '[B17], [B18], [B191], [B192], [B193], [B194], [B195], [B201], [B202], [B203], [B204], [B205], '+
-    '[B206], [B211], [B212], [B213], [B214], [B215], [B216], [B217], [B218], [B22], [B231], '+
-    '[B232], [B233], [B234], [C011], [C012], [C013], [C014], [C015], [C016], [C017], [C018], '+
-    '[C019], [C021], [C022], [C023], [C031], [C032], [C033], [C034], [C0401], [C0401_imput], '+
-    '[C0402], [C0402_imput], [C0403], [C0403_imput], [C0404], [C0404_imput], [C0405], '+
-    '[C0405_imput], [C0406], [C0406_imput], [C0407], [C0407_imput], [C0408], [C0408_imput], '+
-    '[C0409], [C0409_imput], [C0410], [C0410_imput], [C0411], [C0411_imput], [C0412], '+
-    '[C0412_imput], [C0413], [C0413_imput], [C0414], [C0414_imput], [C0415], [C0415_imput], '+
-    '[C0416], [C0416_imput], [C0417], [C0417_imput], [C0418], [C0418_imput], [C0419], '+
-    '[C0419_imput], [C0420], [C0420_imput], [C0421], [C0421_imput], [C0422], [C0422_imput], '+
-    '[C051], [C052], [C053], [C061], [C062], [C063], [C064], [C065], [C066], [C07], [C08], [C09], '+
-    '[C101], [C102], [C103], [C104], [PESO], [INV_FRAC], [PROJ_DOM] FROM SPSS_TEMP'
+    '[municipio], [A01setor], [A01nficha], [A01npessoas], [datavisita], [B01], '+
+    '[B02], [B03], [B04], [B05], [B06], [B07], [B08], [B09], [B10], [B11], [B12], [B13], [B14], '+
+    '[B15], [B16], [B17], [B18], [B191], [B192], [B193], [B194], [B195], [B201], [B202], [B203], '+
+    '[B204], [B205], [B206], [B211], [B212], [B213], [B214], [B215], [B216], [B217], [B218], '+
+    '[B22], [B231], [B232], [B233], [B234], [C011], [C012], [C013], [C014], [C015], [C016], '+
+    '[C017], [C018], [C019], [C021], [C022], [C023], [C031], [C032], [C033], [C034], [C0401], '+
+    '[C0402], [C0403], [C0404], [C0405], [C0406], [C0407], [C0408], [C0409], [C0410], [C0411], '+
+    '[C0412], [C0413], [C0414], [C0415], [C0416], [C0417], [C0418], [C0419], [C0420], [C0421], '+
+    '[C0422], [C051], [C052], [C053], [C061], [C062], [C063], [C064], [C065], [C066], [C07], '+
+    '[C08], [C09], [C101], [C102], [C103], [C104], [C0401_imput], [C0402_imput], [C0403_imput], '+
+    '[C0404_imput], [C0405_imput], [C0406_imput], [C0407_imput], [C0408_imput], [C0409_imput], '+
+    '[C0410_imput], [C0411_imput], [C0412_imput], [C0413_imput], [C0414_imput], [C0415_imput], '+
+    '[C0416_imput], [C0417_imput], [C0418_imput], [C0419_imput], [C0420_imput], [C0421_imput], '+
+    '[C0422_imput], [PESO], [INV_FRAC], [PROJ_DOM]) SELECT [referencia], [municipio], [A01setor], '+
+    '[A01nficha], [A01npessoas], [datavisita], [B01], [B02], [B03], [B04], [B05], '+
+    '[B06], [B07], [B08], [B09], [B10], [B11], [B12], [B13], [B14], [B15], [B16], [B17], [B18], '+
+    '[B191], [B192], [B193], [B194], [B195], [B201], [B202], [B203], [B204], [B205], [B206], '+
+    '[B211], [B212], [B213], [B214], [B215], [B216], [B217], [B218], [B22], [B231], [B232], '+
+    '[B233], [B234], [C011], [C012], [C013], [C014], [C015], [C016], [C017], [C018], [C019], '+
+    '[C021], [C022], [C023], [C031], [C032], [C033], [C034], [C0401], [C0402], [C0403], [C0404], '+
+    '[C0405], [C0406], [C0407], [C0408], [C0409], [C0410], [C0411], [C0412], [C0413], [C0414], '+
+    '[C0415], [C0416], [C0417], [C0418], [C0419], [C0420], [C0421], [C0422], [C051], [C052], '+
+    '[C053], [C061], [C062], [C063], [C064], [C065], [C066], [C07], [C08], [C09], [C101], [C102], '+
+    '[C103], [C104], [C0401_imput], [C0402_imput], [C0403_imput], [C0404_imput], [C0405_imput], '+
+    '[C0406_imput], [C0407_imput], [C0408_imput], [C0409_imput], [C0410_imput], [C0411_imput], '+
+    '[C0412_imput], [C0413_imput], [C0414_imput], [C0415_imput], [C0416_imput], [C0417_imput], '+
+    '[C0418_imput], [C0419_imput], [C0420_imput], [C0421_imput], [C0422_imput], [PESO], '+
+    '[INV_FRAC], [PROJ_DOM] FROM SPSS_TEMP'
   /SQL='DROP TABLE [SPSS_TEMP]'.
-
-
 
 
 
@@ -781,10 +811,41 @@ GET DATA
   /SQL=
  " select " 
  " referencia, " 
- " municipio, " 
- " A01setor, " 
+ " case when trim(municipio) = 'Águas Lindas de Goiás' then 41 " 
+ "      when trim(municipio) = 'Alexânia' then 42 " 
+ "      when trim(municipio) = 'Cidade Ocidental' then 43 " 
+ "      when trim(municipio) = 'Cocalzinho de Goiás' then 45 " 
+ "      when trim(municipio) = 'Cristalina' then 44 " 
+ "      when trim(municipio) = 'Formosa' then 46 " 
+ "      when trim(municipio) = 'Luziânia' then 47 " 
+ "      when trim(municipio) = 'Novo Gama' then 48 " 
+ "      when trim(municipio) = 'Padre Bernardo' then 49 " 
+ "      when trim(municipio) = 'Planaltina' then 50 " 
+ "      when trim(municipio) = 'Santo Antônio do Descoberto' then 51 " 
+ "      when trim(municipio) = 'Valparaíso de Goiás' then 52 " 
+ "      else null " 
+ " end as municipio, " 
+ " case when trim(A01setor) = 'Águas Lindas de Goiás' then 1 " 
+ "      when trim(A01setor) = 'Cocalzinho de Goiás: Girassol/Edilândia' then 2 " 
+ "      when trim(A01setor) = 'Cocalzinho de Goiás: Sede' then 3 " 
+ "      when trim(A01setor) = 'Padre Bernardo: Sede' then 4 " 
+ "      when trim(A01setor) = 'Padre Bernardo: Monte Alto' then 5 " 
+ "      when trim(A01setor) = 'Planaltina' then 6 " 
+ "      when trim(A01setor) = 'Valparaíso de Goiás' then 7 " 
+ "      when trim(A01setor) = 'Alexânia' then 8 " 
+ "      when trim(A01setor) = 'Cristalina: Sede' then 9 " 
+ "      when trim(A01setor) = 'Cristalina: Campos Lindos/Marajó' then 10 " 
+ "      when trim(A01setor) = 'Formosa' then 11 " 
+ "      when trim(A01setor) = 'Luziânia: Sede' then 12 " 
+ "      when trim(A01setor) = 'Luziânia: Jardim Ingá' then 13 " 
+ "      when trim(A01setor) = 'Novo Gama' then 14 " 
+ "      when trim(A01setor) = 'Cidade Ocidental: Sede' then 15 " 
+ "      when trim(A01setor) = 'Cidade Ocidental: Jardim ABC' then 16 " 
+ "      when trim(A01setor) = 'Santo Antônio do Descoberto' then 17 " 
+ "      else null " 
+ " end as A01setor, " 
  " A01nficha, " 
- " A01nPessoas, " 
+ " A01npessoas, " 
  " D01, " 
  " D02, " 
  " D06, " 
@@ -833,7 +894,7 @@ variable labels referencia "Ano da pesquisa".
 variable labels municipio "Município pesquisado".
 variable labels A01setor "A01setor - Setor Pesquisado".
 variable labels A01nficha "A01nficha - Número da ficha".
-variable labels A01nPessoas "A01nPessoas - Qtd. pessoas no domicílio".
+variable labels A01npessoas "A01npessoas - Qtd. pessoas no domicílio".
 variable labels D01 "Código de identificação único do morador".
 variable labels D02 "Qual a condição do morador no domicílio?".
 variable labels D06 "Responsabilidade compartilhada (para menores de 14 anos)".
@@ -1474,7 +1535,7 @@ SAVE TRANSLATE /TYPE=ODBC
   /MISSING=RECODE
   /SQL="IF OBJECT_ID('pmad2018.mor_pub', 'U') IS NOT NULL DROP TABLE pmad2018.mor_pub"
   /SQL='CREATE TABLE pmad2018.mor_pub ([referencia] float , '+
-    '[municipio] varchar (27), [A01setor] varchar (39), [A01nficha] float , [A01nPessoas] float , '+
+    '[municipio] float, [A01setor] float, [A01nficha] float , [A01npessoas] float , '+
     '[D01] float , [D02] float , [D06] float , [D03] float , [D04] float , [D05] float , [D07] '+
     'float , [D08] float , [D09] float , [D10] float , [D11] float , [D12] float , [D13] float , '+
     '[D14] float , [D15] float , [D16] float , [D17] float , [D18] float , [D19] float , [D20] '+
@@ -1484,17 +1545,18 @@ SAVE TRANSLATE /TYPE=ODBC
     'float , [pos_estrato] varchar (5))'
   /REPLACE
   /TABLE='SPSS_TEMP'
-  /KEEP=referencia, municipio, A01setor, A01nficha, A01nPessoas, D01, D02, D06, D03, D04, D05, D07, 
+  /KEEP=referencia, municipio, A01setor, A01nficha, A01npessoas, D01, D02, D06, D03, D04, D05, D07, 
     D08, D09, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D20, D21, D22, E01, E02, E03, E04, E05, 
     E06, E07, E08, E09, E10, E11, E12, E13, E14, E15, PESO, PROJ_POP, pos_estrato
   /SQL='INSERT INTO pmad2018.mor_pub ([referencia], '+
-    '[municipio], [A01setor], [A01nficha], [A01nPessoas], [D01], [D02], [D06], [D03], [D04], '+
+    '[municipio], [A01setor], [A01nficha], [A01npessoas], [D01], [D02], [D06], [D03], [D04], '+
     '[D05], [D07], [D08], [D09], [D10], [D11], [D12], [D13], [D14], [D15], [D16], [D17], [D18], '+
     '[D19], [D20], [D21], [D22], [E01], [E02], [E03], [E04], [E05], [E06], [E07], [E08], [E09], '+
     '[E10], [E11], [E12], [E13], [E14], [E15], [PESO], [PROJ_POP], [pos_estrato]) SELECT '+
-    '[referencia], [municipio], [A01setor], [A01nficha], [A01nPessoas], [D01], [D02], [D06], '+
+    '[referencia], [municipio], [A01setor], [A01nficha], [A01npessoas], [D01], [D02], [D06], '+
     '[D03], [D04], [D05], [D07], [D08], [D09], [D10], [D11], [D12], [D13], [D14], [D15], [D16], '+
     '[D17], [D18], [D19], [D20], [D21], [D22], [E01], [E02], [E03], [E04], [E05], [E06], [E07], '+
     '[E08], [E09], [E10], [E11], [E12], [E13], [E14], [E15], [PESO], [PROJ_POP], [pos_estrato] '+
     'FROM SPSS_TEMP'
   /SQL='DROP TABLE [SPSS_TEMP]'.
+
